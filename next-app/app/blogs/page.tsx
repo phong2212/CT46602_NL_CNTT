@@ -1,6 +1,6 @@
 import React from 'react'
-import NavBar from '../components/NavBar'
-import Slider from '../components/Slider'
+import NavBar from '../components/NavBar/NavBar'
+import Slider from '../components/Slider/Slider'
 
 const BlogPage = () => {
     return (
@@ -8,7 +8,6 @@ const BlogPage = () => {
 
             <div className="relative isolate overflow-hidden bg-gray-900 caret-transparent">
 
-                <NavBar />
 
                 <Slider />
 
