@@ -66,111 +66,110 @@ function CreateContent() {
         <form className='container mx-auto py-10 px-24 caret-transparent' onSubmit={handleSubmit}>
             <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
-                    <h2 className="text-base font-semibold leading-7 text-gray-900">Profile</h2>
-                    <p className="mt-1 text-sm leading-6 text-gray-600">
-                        This information will be displayed publicly so be careful what you share.
-                    </p>
-                    <div className='mt-10 w-60'>
-                        <label htmlFor="name" className="input input-bordered flex items-center gap-2">
-                            Name
-                            <input
-                                type="text"
-                                id="tittle"
-                                value={name}
-                                name="name"
-                                onChange={handleChange("name")}
-                                className="grow"
-                                placeholder="Daisy"
-                            />
-                        </label>
-                    </div>
+                    <h2 className="text-xl font-semibold leading-7 text-gray-100">Tạo địa điểm mới</h2>
+                    <label className="form-control w-full max-w-xs mt-2">
+                        <div className="label">
+                            <span className="label-text text-gray-300">Tên địa điểm</span>
+                        </div>
+                        <input
+                            type="text"
+                            id="tittle"
+                            value={name}
+                            name="name"
+                            onChange={handleChange("name")}
+                            className="input input-bordered w-full max-w-xs"
+                            placeholder="Nhập tên địa điểm..."
+                        />
+                    </label>
+                    <label className=' form-control w-full max-w-xs mt-2'>
+                        <div className="label">
+                            <span className="label-text text-gray-300 ">Mô tả</span>
+                        </div>
+                        <textarea
+                            id="tittle"
+                            value={description}
+                            name="description"
+                            onChange={handleChange("description")}
+                            className="textarea textarea-bordered flex items-center "
+                            placeholder="Nhập mô tả..."
+                            rows={4}
+                        />
+                    </label>
 
-                    <div className='mt-10 w-60'>
-                        <label htmlFor="description" className="input input-bordered flex items-center gap-2">
-                            Description
-                            <textarea
-                                id="tittle"
-                                value={description}
-                                name="description"
-                                onChange={handleChange("description")}
-                                className="textarea textarea-bordered"
-                                placeholder="Bio"
-                                rows={4}
-                            />
-                        </label>
-                    </div>
+                    <label className="form-control w-full max-w-xs mt-2">
+                        <div className="label">
+                            <span className="label-text text-gray-300">Tên châu lục</span>
+                        </div>
+                        <input
+                            type="text"
+                            id="continent"
+                            value={continent}
+                            name="continent"
+                            onChange={handleChange("continent")}
+                            className="input input-bordered w-full max-w-xs"
+                            placeholder="Nhập tên châu lục..."
+                        />
+                    </label>
 
-                    <div className='mt-10 w-60'>
-                        <label htmlFor="continent" className="input input-bordered flex items-center gap-2">
-                            Continent
-                            <input
-                                type="text"
-                                id="continent"
-                                value={continent}
-                                name="continent"
-                                onChange={handleChange("continent")}
-                                className="grow"
-                                placeholder="Continent"
-                            />
-                        </label>
-                    </div>
 
-                    <div className='mt-10 w-60'>
-                        <label htmlFor="country" className="input input-bordered flex items-center gap-2">
-                            Country
-                            <input
-                                type="text"
-                                id="country"
-                                value={country}
-                                name="country"
-                                onChange={handleChange("country")}
-                                className="grow"
-                                placeholder="Country"
-                            />
-                        </label>
-                    </div>
+                    <label className="form-control w-full max-w-xs mt-2">
+                        <div className="label">
+                            <span className="label-text text-gray-300">Tên quốc gia</span>
+                        </div>
+                        <input
+                            type="text"
+                            id="country"
+                            value={country}
+                            name="country"
+                            onChange={handleChange("country")}
+                            className="input input-bordered w-full max-w-xs"
+                            placeholder="Nhập tên quốc gia..."
+                        />
+                    </label>
 
-                    <div className='mt-10 w-60'>
-                        <label htmlFor="city" className="input input-bordered flex items-center gap-2">
-                            City
-                            <input
-                                type="text"
-                                id="city"
-                                value={city}
-                                name="city"
-                                onChange={handleChange("city")}
-                                className="grow"
-                                placeholder="City"
-                            />
-                        </label>
-                    </div>
+                    <label className="form-control w-full max-w-xs mt-2">
+                        <div className="label">
+                            <span className="label-text text-gray-300">Tên thành phố</span>
+                        </div>
+                        <input
+                            type="text"
+                            id="city"
+                            value={city}
+                            name="city"
+                            onChange={handleChange("city")}
+                            className="input input-bordered w-full max-w-xs"
+                            placeholder="Nhập thành phố..."
+                        />
+                    </label>
 
-                    <div className='mt-10 w-60'>
-                        <label htmlFor="imageURL" className="input input-bordered flex items-center gap-2">
-                            ImageURL
-                            <input
-                                type="text"
-                                id="imageURL"
-                                value={imageURL}
-                                name="imageURL"
-                                onChange={handleChange("imageURL")}
-                                className="grow"
-                                placeholder="ImageURL"
-                            />
-                        </label>
-                    </div>
+
+                    <label className="form-control w-full max-w-xs mt-2">
+                        <div className="label">
+                            <span className="label-text text-gray-300">Link ảnh</span>
+                        </div>
+                        <input
+                            type="text"
+                            id="imageURL"
+                            value={imageURL}
+                            name="imageURL"
+                            onChange={handleChange("imageURL")}
+                            className="input input-bordered w-full max-w-xs"
+                            placeholder="Nhập link ảnh..."
+                        />
+                    </label>
+
 
                 </div>
             </div>
-            <div className="mt-6 flex items-center justify-end gap-x-6">
-                <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
-                    Cancel
+            <div className="flex items-center justify-start gap-x-6">
+                <button type="button" className="text-sm font-semibold leading-6 text-red-500">
+                    Hủy
                 </button>
                 <button
                     type="submit"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                    Save
+                    Lưu
                 </button>
             </div>
         </form>

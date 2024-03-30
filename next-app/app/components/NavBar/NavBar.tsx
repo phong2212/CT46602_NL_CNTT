@@ -2,10 +2,19 @@
 
 import Link from 'next/link'
 import React from 'react'
+import { usePathname } from 'next/navigation';
+import clsx from 'clsx';
 
 const NavBar = () => {
+    const pathname = usePathname();
+    const isManagerPath = /^\/manager(\/|$)/.test(pathname);
     return (
-        <nav className="bg-transparent py-3 px-6 fixed top-0 w-full drop-shadow-md z-10 caret-transparent">
+        <nav className={clsx(
+            'bg-transparent py-3 px-6 fixed top-0 w-full drop-shadow-md z-10 caret-transparent',
+            {
+                'invisible': isManagerPath,
+            },
+        )}>
             <div className="navbar bg-base-100 border-2 rounded-3xl shadow-md">
                 <div className="flex-1">
                     <Link href={"/"} className="btn btn-ghost text-xl text-sky-500">Wanderlust</Link>
@@ -42,7 +51,7 @@ const NavBar = () => {
                                     <span className="badge">Mới</span>
                                 </Link>
                             </li>
-                            <li></li>
+                            <li><a href={"/manager"}>Quản lý</a></li>
                             <li><Link href={"/settings"}>Cài đặt</Link></li>
                             <li><Link href={"/logout"}>Đăng xuất</Link></li>
                         </ul>
