@@ -4,6 +4,7 @@ import "./globals.css";
 import NavBar from "./components/NavBar/NavBar";
 import { ClerkProvider, auth } from '@clerk/nextjs'
 import ContextProvider from "./providers/ContextProvider";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,12 @@ export default function RootLayout({
           <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
         </head>
         <body className={inter.className}>
+          <NextTopLoader
+            height={2}
+            color="#0ea5e9"
+            easing="cubic-bezier(0.53,0.21,0,1"
+            showSpinner={false}
+          />
           <ContextProvider >
             {userId && <NavBar />}
             {children}

@@ -2,7 +2,7 @@ import prisma from "@/app/utils/connect";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
     try {
         const { userId } = auth();
 
@@ -31,7 +31,6 @@ export async function POST(req: Request, res: Response) {
             }
         });
 
-        console.log("Địa điểm được tạo: ", destinations);
 
         return NextResponse.json({ destinations, status: 200 });
 
@@ -41,7 +40,7 @@ export async function POST(req: Request, res: Response) {
     }
 }
 
-export async function GET(req: Request, res: Response) {
+export async function GET(req: Request) {
     try {
         const { userId } = auth();
         if (!userId) {
@@ -55,6 +54,9 @@ export async function GET(req: Request, res: Response) {
         const skip = (page - 1) * limit;
 
         const destinations = await prisma.destinations.findMany({
+            orderBy: {
+                id: 'desc',
+              },
             where: {
                 OR: [
                     { name: { contains: search, mode: 'insensitive' } },
@@ -80,8 +82,6 @@ export async function GET(req: Request, res: Response) {
             },
         });
 
-        console.log("Địa điểm được lấy: ", destinations);
-
         return NextResponse.json({ destinations, total, page, limit, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy địa điểm: ", error);
@@ -89,18 +89,4 @@ export async function GET(req: Request, res: Response) {
     }
 }
 
-export async function PUT(req: Request, res: Response) {
-    try {
-    } catch (error) {
-        console.log("Lỗi cập nhật địa điểm: ", error);
-        return NextResponse.json({ error: "Lỗi cập nhật địa điểm", status: 500 });
-    }
-}
 
-export async function DELETE(req: Request, res: Response) {
-    try {
-    } catch (error) {
-        console.log("Lỗi xóa địa điểm: ", error);
-        return NextResponse.json({ error: "Lỗi xóa địa điểm", status: 500 });
-    }
-}

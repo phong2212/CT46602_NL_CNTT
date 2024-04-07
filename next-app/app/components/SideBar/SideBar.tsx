@@ -5,8 +5,11 @@ import menu from "@/app/utils/menu"
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
+import { signout } from '@/app/utils/Icons';
+import { useClerk } from '@clerk/nextjs';
 
 function SideBar() {
+    const { signOut } = useClerk();
     const pathname = usePathname();
     const router = useRouter();
     const handleClick = (link: string) => {
@@ -28,7 +31,7 @@ function SideBar() {
                             },
                         )}
                             onClick={() => handleClick(link)}
-                            key={link}
+                            key = {item.id}
                         >
                             {item.icon}
                             <Link href={link} className='font-medium transition-all delay-300 ease-in-out z-20'>
@@ -38,7 +41,9 @@ function SideBar() {
                     );
                 })}
             </ul>
-            <button>LOG OUT</button>
+            <div className='h-12 flex items-center justify-center mb-5'>
+                <button onClick={() => signOut(() => router.push("/"))} className='btn btn-ghost font-bold text-xl flex flex-row items-center justify-center'>{signout} <span className='ml-3'>Đăng xuất</span></button>
+            </div>
         </nav>
     )
 }

@@ -1,10 +1,12 @@
 'use client'
 
+import { useGlobalState } from '@/app/context/globalProvider';
 import axios from 'axios';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 
 function CreateContent() {
+    const { allDests, closeModal } = useGlobalState();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [continent, setContinent] = useState('');
@@ -55,18 +57,23 @@ function CreateContent() {
             if (res.data.error) {
                 toast.error(res.data.error);
             }
-            toast.success("Tạo địa điểm thành công!");
+
+            if (!res.data.error) {
+                toast.success("Tạo địa điểm thành công!");
+                allDests();
+                closeModal();
+            }
         } catch (error) {
-            toast.error("Something went wrong");
+            toast.error("Tạo địa điểm thất bại!");
             console.error(error);
         }
     }
 
     return (
-        <form className='container mx-auto py-10 px-24 caret-transparent' onSubmit={handleSubmit}>
+        <form className='container px-20 caret-transparent' onSubmit={handleSubmit}>
             <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
-                    <h2 className="text-xl font-semibold leading-7 text-gray-100">Tạo địa điểm mới</h2>
+                    <h2 className="text-2xl mb-8 text-center font-semibold leading-7 text-gray-100">Tạo địa điểm mới</h2>
                     <label className="form-control w-full max-w-xs mt-2">
                         <div className="label">
                             <span className="label-text text-gray-300">Tên địa điểm</span>
@@ -100,15 +107,20 @@ function CreateContent() {
                         <div className="label">
                             <span className="label-text text-gray-300">Tên châu lục</span>
                         </div>
-                        <input
-                            type="text"
+                        <select
+                            className="select select-bordered w-full max-w-xs"
                             id="continent"
-                            value={continent}
                             name="continent"
+                            value={continent}
                             onChange={handleChange("continent")}
-                            className="input input-bordered w-full max-w-xs"
-                            placeholder="Nhập tên châu lục..."
-                        />
+                        >
+                            <option disabled value="">Chọn châu lục</option>
+                            <option value="Châu Á">Châu Á</option>
+                            <option value="Châu Âu">Châu Âu</option>
+                            <option value="Châu Mỹ">Châu Mỹ</option>
+                            <option value="Châu Đại Dương">Châu Đại Dương</option>
+                            <option value="Châu Phi">Châu Phi</option>
+                        </select>
                     </label>
 
 
@@ -161,8 +173,8 @@ function CreateContent() {
 
                 </div>
             </div>
-            <div className="flex items-center justify-start gap-x-6">
-                <button type="button" className="text-sm font-semibold leading-6 text-red-500">
+            <div className="flex items-center justify-end gap-x-6">
+                <button type="button" className="text-sm font-semibold leading-6 text-red-500" onClick={closeModal}>
                     Hủy
                 </button>
                 <button

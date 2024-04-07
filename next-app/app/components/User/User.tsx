@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import DestItem from '../DestItem/DestItem';
-import { plus } from '@/app/utils/Icons';
 import { useGlobalState, useGlobalUpdate } from '../../context/globalProvider';
 import CreateContent from '../Modals/CreateContent';
 import Modal from '../Modals/Modal';
@@ -12,15 +10,15 @@ interface Props {
     title: string;
 }
 
-interface Destinations {
-    id: string;
-    name: string;
-    description: string;
-    continent: string;
-    country: string;
-    city: string;
-    imageURL: string;
-}
+// interface Users {
+//     id: string;
+//     name: string;
+//     description: string;
+//     continent: string;
+//     country: string;
+//     city: string;
+//     imageURL: string;
+// }
 
 function Dest({ title }: Props) {
     const { destinations, currentPage, totalPages, setCurrentPage, isLoading, openModal, modal } = useGlobalState();
@@ -67,8 +65,6 @@ function Dest({ title }: Props) {
                         </button>
                     </div>
                 </form>
-
-                <button className='btn btn-accent' onClick={openModal}>{plus} Thêm địa điểm</button>
             </div>
             {!isLoading ? (
                 <table className="table table-xs">
@@ -84,7 +80,7 @@ function Dest({ title }: Props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {destinations.map((destination: Destinations) => (
+                        {/* {destinations.map((destination: Destinations) => (
                             <DestItem
                                 key={destination.id}
                                 id={destination.id}
@@ -95,7 +91,7 @@ function Dest({ title }: Props) {
                                 city={destination.city}
                                 imageURL={destination.imageURL}
                             />
-                        ))}
+                        ))} */}
                     </tbody>
                 </table>
             ) : (
