@@ -4,11 +4,13 @@ import Link from 'next/link'
 import React from 'react'
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import { UserButton, useClerk, useUser } from '@clerk/nextjs';
+import { useClerk, useUser} from '@clerk/nextjs';
 
 const NavBar = () => {
     const pathname = usePathname();
     const isManagerPath = /^\/manager(\/|$)/.test(pathname);
+    const isSignInPath = /^\/sign-in(\/|$)/.test(pathname);
+    const isSignOutPath = /^\/sign-up(\/|$)/.test(pathname);
     const { user } = useUser();
     const { signOut } = useClerk();
     const router = useRouter();
@@ -22,7 +24,7 @@ const NavBar = () => {
         <nav className={clsx(
             'bg-transparent py-3 px-6 fixed top-0 w-full drop-shadow-md z-10 caret-transparent',
             {
-                'invisible': isManagerPath,
+                'invisible': isManagerPath || isSignOutPath || isSignInPath,
             },
         )}>
             <div className="navbar bg-base-100 border-2 rounded-3xl shadow-md">
@@ -48,24 +50,33 @@ const NavBar = () => {
                     <div className="form-control">
                         <input type="text" placeholder="Search" className="input input-bordered w-24 focus:caret-black md:w-auto" />
                     </div>
-                    <UserButton />
-                    <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-                                <img alt={"Ảnh của " + fullName} src={imageUrl} />
+                    {user ? (
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img alt={"Ảnh của " + fullName} src={imageUrl} />
+                                </div>
                             </div>
+                            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                                <li>
+                                    <Link className="justify-between" href={"/profile"}>
+                                        Thông tin cá nhân
+                                    </Link>
+                                </li>
+                                <li><a href={"/manager"}>Quản lý</a></li>
+                                <li><Link href={"/settings"}>Cài đặt</Link></li>
+                                <li><button onClick={() => signOut(() => router.push("/"))}>Đăng xuất</button></li>
+                            </ul>
                         </div>
-                        <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                            <li>
-                                <Link className="justify-between" href={"/profile"}>
-                                    Thông tin cá nhân
-                                </Link>
-                            </li>
-                            <li><a href={"/manager"}>Quản lý</a></li>
-                            <li><Link href={"/settings"}>Cài đặt</Link></li>
-                            <li><button onClick={() => signOut(() => router.push("/"))}>Đăng xuất</button></li>
-                        </ul>
-                    </div>
+                    ) : (
+                        <Link href={"/sign-in"}>
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img alt={"Ảnh của " + fullName} src={imageUrl} />
+                                </div>
+                            </div>
+                        </Link>
+                    )}
                 </div>
             </div>
         </nav>

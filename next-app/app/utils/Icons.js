@@ -1,7 +1,10 @@
-export const plane = <i className="fa-solid fa-plane"></i>;
-export const blog = <i className="fa-solid fa-blog"></i>;
-export const edit = <i className="fa-solid fa-pen-to-square"></i>;
-export const trash = <i className="fa-solid fa-trash"></i>;
-export const plus = <i className="fa-solid fa-plus"></i>;
-export const signout = <i className="fa-solid fa-right-from-bracket"></i>;
-export const user = <i className="fa-solid fa-user"></i>;
+export const plane = <i class="fa-solid fa-plane"></i>;
+export const blog = <i class="fa-solid fa-blog"></i>;
+export const edit = <i class="fa-solid fa-pen-to-square"></i>;
+export const trash = <i class="fa-solid fa-trash"></i>;
+export const plus = <i class="fa-solid fa-plus"></i>;
+export const signout = <i class="fa-solid fa-right-from-bracket"></i>;
+export const user = <i class="fa-solid fa-user"></i>;
+export const facebook = <i class="fa-brands fa-square-facebook"></i>;
+export const instagram = <i class="fa-brands fa-square-instagram"></i>;
+export const twitter = <i class="fa-brands fa-square-x-twitter"></i>;

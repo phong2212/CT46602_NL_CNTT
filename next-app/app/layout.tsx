@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar/NavBar";
 import { ClerkProvider, auth } from '@clerk/nextjs'
 import ContextProvider from "./providers/ContextProvider";
 import NextTopLoader from "nextjs-toploader";
+import Footer from "./components/Footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,8 +45,9 @@ export default function RootLayout({
             showSpinner={false}
           />
           <ContextProvider >
-            {userId && <NavBar />}
+            <NavBar />
             {children}
+            <Footer />
           </ContextProvider>
         </body>
       </html>
