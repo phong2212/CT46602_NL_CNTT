@@ -7,7 +7,7 @@ import Image from 'next/image'
 const page = () => {
     return (
         <div className='relative'>
-            <div className='absolute top-80 h-screen w-full flex items-center justify-center'>
+            <div className='absolute top-96 h-screen w-full flex items-center justify-center'>
                 <UserProfile />
 
             </div>
