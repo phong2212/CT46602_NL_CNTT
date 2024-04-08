@@ -3,6 +3,7 @@
 import React, { createContext, useState, useContext } from 'react'
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useUser } from '@clerk/nextjs';
 
 
 export const GlobalContext = createContext()
@@ -15,6 +16,7 @@ export const GlobalProvider = ({ children }) => {
     const [totalPages, setTotalPages] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [modal, setModal] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const openModal = () => {
         setModal(true);
@@ -50,6 +52,18 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    const checkAdmin = async (id) => {
+        try {
+            const res = await axios.get(`/api/webhooks/clerk/${id}`);
+            
+            setIsAdmin(res.data.role === 'ADMIN');
+            console.log(setIsAdmin(res.data.role === 'ADMIN'));
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
     React.useEffect(() => {
         allDests();
     }, [currentPage, searchTerm]);
@@ -68,6 +82,7 @@ export const GlobalProvider = ({ children }) => {
             modal,
             openModal,
             closeModal,
+            checkAdmin,
         }}>
             <GlobalUpdateContext.Provider value={{ allDests }}>
                 {children}

@@ -5,8 +5,12 @@ import React from 'react'
 import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { useClerk, useUser} from '@clerk/nextjs';
+import { useGlobalState } from '@/app/context/globalProvider';
+import CheckAdmin from '../CheckAdmin/CheckAdmin';
+
 
 const NavBar = () => {
+    const { isAdmin  } = useGlobalState();
     const pathname = usePathname();
     const isManagerPath = /^\/manager(\/|$)/.test(pathname);
     const isSignInPath = /^\/sign-in(\/|$)/.test(pathname);
@@ -15,7 +19,7 @@ const NavBar = () => {
     const { signOut } = useClerk();
     const router = useRouter();
 
-    const { fullName, imageUrl } = user || {
+    const { fullName, imageUrl} = user || {
         fullName: "Người dùng ẩn danh",
         imageUrl: "https://cdn3.iconfinder.com/data/icons/avatar-165/536/NORMAL_HAIR-512.png"
     };
@@ -63,7 +67,7 @@ const NavBar = () => {
                                         Thông tin cá nhân
                                     </Link>
                                 </li>
-                                <li><a href={"/manager"}>Quản lý</a></li>
+                                <CheckAdmin />
                                 <li><Link href={"/settings"}>Cài đặt</Link></li>
                                 <li><button onClick={() => signOut(() => router.push("/"))}>Đăng xuất</button></li>
                             </ul>

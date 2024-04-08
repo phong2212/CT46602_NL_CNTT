@@ -45,7 +45,7 @@ function UpdateContent({ destinationId }: Props) {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-    console.log(destination);
+
         try {
             const res = await axios.put(`/api/destinations/${destinationId}`, destination);
     
