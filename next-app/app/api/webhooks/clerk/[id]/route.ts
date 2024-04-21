@@ -15,7 +15,6 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
             return NextResponse.json({ error: "Tài khoản không tồn tại", status: 404 });
         }
 
-        console.log(user);
         return NextResponse.json({ user, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy tài khoản: ", error);

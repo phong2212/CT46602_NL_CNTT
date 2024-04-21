@@ -1,22 +1,42 @@
 'use client';
 
-import React, { createContext, useState, useContext } from 'react'
+import React, { createContext, useState, useContext, useEffect } from 'react'
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useUser } from '@clerk/nextjs';
+import { useClerk } from '@clerk/nextjs';
+
 
 
 export const GlobalContext = createContext()
 export const GlobalUpdateContext = createContext()
 
 export const GlobalProvider = ({ children }) => {
+    const { user } = useClerk();
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const fetchAdminStatus = async () => {
+            if (user) {
+                try {
+                    const response = await axios.get(`/api/webhooks/clerk/${user.id}`);
+                    setIsAdmin(response.data.user.role === 'ADMIN');
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+        };
+
+        fetchAdminStatus();
+    }, [user]);
+
     const [isLoading, setIsLoading] = useState(false);
     const [destinations, setDestinations] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [searchTerm, setSearchTerm] = useState('');
     const [modal, setModal] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+
+
 
     const openModal = () => {
         setModal(true);
@@ -30,7 +50,7 @@ export const GlobalProvider = ({ children }) => {
         setIsLoading(true);
         try {
             const res = await axios.get(`/api/destinations?page=${page}&limit=4&search=${search}`);
-           
+
             setDestinations(res.data.destinations || []);
             setCurrentPage(page);
             setTotalPages(Math.ceil(res.data.total / 4));
@@ -49,17 +69,6 @@ export const GlobalProvider = ({ children }) => {
         } catch (err) {
             console.log(err);
             toast.error("Xóa địa điểm thất bại");
-        }
-    }
-
-    const checkAdmin = async (id) => {
-        try {
-            const res = await axios.get(`/api/webhooks/clerk/${id}`);
-            
-            setIsAdmin(res.data.role === 'ADMIN');
-            console.log(setIsAdmin(res.data.role === 'ADMIN'));
-        } catch (err) {
-            console.log(err);
         }
     }
 
@@ -82,7 +91,7 @@ export const GlobalProvider = ({ children }) => {
             modal,
             openModal,
             closeModal,
-            checkAdmin,
+            isAdmin,
         }}>
             <GlobalUpdateContext.Provider value={{ allDests }}>
                 {children}
