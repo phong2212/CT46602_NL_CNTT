@@ -110,7 +110,6 @@ export async function GET(req: Request) {
             where: {
                 OR: [
                     { email: { contains: search, mode: 'insensitive' } },
-                    { photo: { contains: search, mode: 'insensitive' } },
                     { firstName: { contains: search, mode: 'insensitive' } },
                     { lastName: { contains: search, mode: 'insensitive' } },
                 ],
@@ -123,7 +122,6 @@ export async function GET(req: Request) {
             where: {
                 OR: [
                     { email: { contains: search, mode: 'insensitive' } },
-                    { photo: { contains: search, mode: 'insensitive' } },
                     { firstName: { contains: search, mode: 'insensitive' } },
                     { lastName: { contains: search, mode: 'insensitive' } },
                 ],

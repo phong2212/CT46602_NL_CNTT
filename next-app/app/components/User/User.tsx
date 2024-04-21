@@ -15,7 +15,7 @@ interface Users {
     photo: string;
     firstName: string;
     lastName: string;
-
+    createdAt: GLfloat;
 }
 
 function User({ title }: Props) {
@@ -70,6 +70,7 @@ function User({ title }: Props) {
                             <th>Email</th>
                             <th>Tên</th>
                             <th>Họ</th>
+                            <th>Ngày tạo tài khoản</th>
                             <th>Ảnh đại diện</th>
                         </tr>
                     </thead>
@@ -77,10 +78,10 @@ function User({ title }: Props) {
                         {users.map((user: Users) => (
                             <UserItem
                                 key={user.id}
-                                id={user.id}
                                 email={user.email}
                                 firstname={user.firstName}
                                 lastname={user.lastName}
+                                createdAt={new Date(user.createdAt)}
                                 photo={user.photo}
                             />
                         ))}

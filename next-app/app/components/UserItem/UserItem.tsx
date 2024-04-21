@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
 interface Props {
-    id: string;
     email: string;
     firstname: string;
     lastname: string;
+    createdAt: Date;
     photo: string;
 }
 
-function DestItem({ id, email, firstname, lastname, photo }: Props) {
+function DestItem({ email, firstname, lastname, createdAt, photo }: Props) {
     const [isZoomed, setIsZoomed] = useState(false);
 
     const ImageClick = () => {
@@ -19,12 +19,15 @@ function DestItem({ id, email, firstname, lastname, photo }: Props) {
         setIsZoomed(false);
     };
 
+    const formattedCreatedAt = createdAt.toLocaleString();
+
     return (
         <>
             <tr>
                 <td>{email}</td>
                 <td>{firstname || "chưa thêm"}</td>
                 <td>{lastname || "chưa thêm"}</td>
+                <td>{formattedCreatedAt}</td>
                 <td className="avatar cursor-pointer">
                     <div className="w-24 rounded">
                         <img
