@@ -6,12 +6,6 @@ import { NextResponse } from 'next/server'
 import prisma from '@/app/utils/connect'
 
 export async function POST(req: Request) {
-
-    const { userId } = auth();
-    if (!userId) {
-        return NextResponse.json({ error: "Không có quyền truy cập", status: 401 })
-    }
-
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
 
