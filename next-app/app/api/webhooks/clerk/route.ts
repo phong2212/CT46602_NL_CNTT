@@ -1,11 +1,16 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
-import { clerkClient } from '@clerk/nextjs'
+import { auth, clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
 import prisma from '@/app/utils/connect'
 
 export async function POST(req: Request) {
+
+    const { userId } = auth();
+    if (!userId) {
+        return NextResponse.json({ error: "Không có quyền truy cập", status: 401 })
+    }
 
     // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
@@ -55,10 +60,9 @@ export async function POST(req: Request) {
     const eventType = evt.type;
 
     if (eventType === "user.created") {
-        const { id, email_addresses, image_url, first_name, last_name } = evt.data;
+        const { id, email_addresses, image_url, first_name, last_name, created_at } = evt.data;
 
         try {
-
             const newUser = await prisma.users.create({
                 data: {
                     clerkId: id,
@@ -66,6 +70,7 @@ export async function POST(req: Request) {
                     photo: image_url,
                     firstName: first_name,
                     lastName: last_name,
+                    createdAt: created_at,
                 }
             });
 
@@ -89,5 +94,52 @@ export async function POST(req: Request) {
     console.log('Webhook body:', body)
 
     return new Response('', { status: 200 })
+}
+
+export async function GET(req: Request) {
+    try {
+        const { userId } = auth();
+        if (!userId) {
+            return NextResponse.json({ error: "Không có quyền truy cập", status: 401 })
+        }
+
+        const url = new URL(req.url);
+        const search = url.searchParams.get('search') || '';
+        const page = parseInt(url.searchParams.get('page') || '1', 10);
+        const limit = parseInt(url.searchParams.get('limit') || '4', 10);
+        const skip = (page - 1) * limit;
+
+        const users = await prisma.users.findMany({
+            orderBy: {
+                id: 'desc',
+            },
+            where: {
+                OR: [
+                    { email: { contains: search, mode: 'insensitive' } },
+                    { photo: { contains: search, mode: 'insensitive' } },
+                    { firstName: { contains: search, mode: 'insensitive' } },
+                    { lastName: { contains: search, mode: 'insensitive' } },
+                ],
+            },
+            take: limit,
+            skip: skip,
+        });
+
+        const total = await prisma.users.count({
+            where: {
+                OR: [
+                    { email: { contains: search, mode: 'insensitive' } },
+                    { photo: { contains: search, mode: 'insensitive' } },
+                    { firstName: { contains: search, mode: 'insensitive' } },
+                    { lastName: { contains: search, mode: 'insensitive' } },
+                ],
+            },
+        });
+
+        return NextResponse.json({ users, total, page, limit, status: 200 });
+    } catch (error) {
+        console.log("Lỗi lấy địa điểm: ", error);
+        return NextResponse.json({ error: "Lỗi lấy địa điểm", status: 500 });
+    }
 }
 

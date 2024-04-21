@@ -35,5 +35,6 @@ model Users {
   photo     String   @unique
   firstName String?
   lastName  String?
+  createdAt Float?
   role      UserRole @default(USER)
 }

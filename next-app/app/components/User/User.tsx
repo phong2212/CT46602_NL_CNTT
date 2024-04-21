@@ -2,27 +2,25 @@
 
 import React, { useState } from 'react'
 import { useGlobalState, useGlobalUpdate } from '../../context/globalProvider';
-import CreateContent from '../Modals/CreateContent';
-import Modal from '../Modals/Modal';
+import UserItem from '../UserItem/UserItem';
 
 
 interface Props {
     title: string;
 }
 
-// interface Users {
-//     id: string;
-//     name: string;
-//     description: string;
-//     continent: string;
-//     country: string;
-//     city: string;
-//     imageURL: string;
-// }
+interface Users {
+    id: string;
+    email: string;
+    photo: string;
+    firstName: string;
+    lastName: string;
 
-function Dest({ title }: Props) {
-    const { destinations, currentPage, totalPages, setCurrentPage, isLoading, openModal, modal } = useGlobalState();
-    const { allDests } = useGlobalUpdate();
+}
+
+function User({ title }: Props) {
+    const { users, currentPageUser, totalPagesUser, setCurrentPageUser, isLoading } = useGlobalState();
+    const { allUsers } = useGlobalUpdate();
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearchChange = (e: any) => {
@@ -31,25 +29,24 @@ function Dest({ title }: Props) {
 
     const handleSearchSubmit = (e: any) => {
         e.preventDefault();
-        allDests(1, searchTerm);
+        allUsers(1, searchTerm);
     };
 
     const goToNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+        if (currentPageUser < totalPagesUser) {
+            setCurrentPageUser(currentPageUser + 1);
         }
     };
 
     const goToPreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+        if (currentPageUser > 1) {
+            setCurrentPageUser(currentPageUser - 1);
         }
     };
 
     return (
         <div className='p-2 w-full bg-gray-800 border-2 border-solid border-gray-600 rounded-2xl overflow-hidden caret-transparent'>
             <div className='flex flex-row justify-between my-5 mx-5'>
-                {modal && <Modal content={<CreateContent />} />}
                 <h1 className='relative text-2xl font-extrabold'>{title}</h1>
                 <form onSubmit={handleSearchSubmit}>
                     <div className='form-control flex flex-row'>
@@ -70,28 +67,23 @@ function Dest({ title }: Props) {
                 <table className="table table-xs">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th className='w-80'>Description</th>
-                            <th>Continent</th>
-                            <th>Country</th>
-                            <th>City</th>
-                            <th>ImageURL</th>
-                            <th>Sửa/Xóa</th>
+                            <th>Email</th>
+                            <th>Tên</th>
+                            <th>Họ</th>
+                            <th>Ảnh đại diện</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {destinations.map((destination: Destinations) => (
-                            <DestItem
-                                key={destination.id}
-                                id={destination.id}
-                                name={destination.name}
-                                description={destination.description}
-                                continent={destination.continent}
-                                country={destination.country}
-                                city={destination.city}
-                                imageURL={destination.imageURL}
+                        {users.map((user: Users) => (
+                            <UserItem
+                                key={user.id}
+                                id={user.id}
+                                email={user.email}
+                                firstname={user.firstName}
+                                lastname={user.lastName}
+                                photo={user.photo}
                             />
-                        ))} */}
+                        ))}
                     </tbody>
                 </table>
             ) : (
@@ -102,12 +94,12 @@ function Dest({ title }: Props) {
                 </div>
             )}
             <div className='join flex justify-center'>
-                <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPage <= 1}>Trước</button>
-                <span className='join-item btn'>{currentPage} </span>
-                <button className='join-item btn' onClick={goToNextPage} disabled={currentPage >= totalPages}>Sau</button>
+                <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPageUser <= 1}>Trước</button>
+                <span className='join-item btn'>{currentPageUser} </span>
+                <button className='join-item btn' onClick={goToNextPage} disabled={currentPageUser >= totalPagesUser}>Sau</button>
             </div>
         </div>
     );
 }
 
-export default Dest
+export default User

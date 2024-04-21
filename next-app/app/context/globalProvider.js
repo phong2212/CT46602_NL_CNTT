@@ -31,9 +31,13 @@ export const GlobalProvider = ({ children }) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [destinations, setDestinations] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [users, setUsers] = useState([]);
+    const [currentPageDest, setCurrentPageDest] = useState(1);
+    const [totalPagesDest, setTotalPagesDest] = useState(0);
+    const [currentPageUser, setCurrentPageUser] = useState(1);
+    const [totalPagesUser, setTotalPagesUser] = useState(0);
+    const [searchTermDest, setSearchTermDest] = useState('');
+    const [searchTermUser, setSearchTermUser] = useState('');
     const [modal, setModal] = useState(false);
 
 
@@ -46,14 +50,14 @@ export const GlobalProvider = ({ children }) => {
         setModal(false);
     };
 
-    const allDests = async (page = currentPage, search = searchTerm) => {
+    const allDests = async (page = currentPageDest, search = searchTermDest) => {
         setIsLoading(true);
         try {
             const res = await axios.get(`/api/destinations?page=${page}&limit=4&search=${search}`);
 
             setDestinations(res.data.destinations || []);
-            setCurrentPage(page);
-            setTotalPages(Math.ceil(res.data.total / 4));
+            setCurrentPageDest(page);
+            setTotalPagesDest(Math.ceil(res.data.total / 4));
             setIsLoading(false);
         } catch (err) {
             console.log(err);
@@ -72,20 +76,43 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    const allUsers = async (page = currentPageUser, search = searchTermUser) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(`/api/webhooks/clerk?page=${page}&limit=4&search=${search}`);
+            setUsers(res.data.users || []);
+            setCurrentPageUser(page);
+            setTotalPagesUser(Math.ceil(res.data.total / 4));
+            setIsLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
 
     React.useEffect(() => {
         allDests();
-    }, [currentPage, searchTerm]);
+    }, [currentPageDest, searchTermDest]);
+
+    React.useEffect(() => {
+        allUsers();
+    }, [currentPageUser, searchTermUser]);
 
 
     return (
         <GlobalContext.Provider value={{
             destinations,
+            users,
             allDests,
-            currentPage,
-            totalPages,
-            setSearchTerm,
-            setCurrentPage,
+            allUsers,
+            currentPageDest,
+            currentPageUser,
+            totalPagesDest,
+            totalPagesUser,
+            setSearchTermDest,
+            setSearchTermUser,
+            setCurrentPageDest,
+            setCurrentPageUser,
             isLoading,
             deleteDest,
             modal,
@@ -93,7 +120,7 @@ export const GlobalProvider = ({ children }) => {
             closeModal,
             isAdmin,
         }}>
-            <GlobalUpdateContext.Provider value={{ allDests }}>
+            <GlobalUpdateContext.Provider value={{ allDests, allUsers, }}>
                 {children}
             </GlobalUpdateContext.Provider>
         </GlobalContext.Provider>

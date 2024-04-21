@@ -23,7 +23,7 @@ interface Destinations {
 }
 
 function Dest({ title }: Props) {
-    const { destinations, currentPage, totalPages, setCurrentPage, isLoading, openModal, modal } = useGlobalState();
+    const { destinations, currentPageDest, totalPagesDest, setCurrentPageDest, isLoading, openModal, modal } = useGlobalState();
     const { allDests } = useGlobalUpdate();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -37,14 +37,14 @@ function Dest({ title }: Props) {
     };
 
     const goToNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+        if (currentPageDest < totalPagesDest) {
+            setCurrentPageDest(currentPageDest + 1);
         }
     };
 
     const goToPreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+        if (currentPageDest > 1) {
+            setCurrentPageDest(currentPageDest - 1);
         }
     };
 
@@ -74,12 +74,12 @@ function Dest({ title }: Props) {
                 <table className="table table-xs">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th className='w-80'>Description</th>
-                            <th>Continent</th>
-                            <th>Country</th>
-                            <th>City</th>
-                            <th>ImageURL</th>
+                            <th>Tên địa điểm</th>
+                            <th className='w-80'>Mô tả</th>
+                            <th>Châu lục</th>
+                            <th>Quốc gia</th>
+                            <th>Thành phố</th>
+                            <th>Ảnh URL</th>
                             <th>Sửa/Xóa</th>
                         </tr>
                     </thead>
@@ -106,9 +106,9 @@ function Dest({ title }: Props) {
                 </div>
             )}
             <div className='join flex justify-center'>
-                <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPage <= 1}>Trước</button>
-                <span className='join-item btn'>{currentPage} </span>
-                <button className='join-item btn' onClick={goToNextPage} disabled={currentPage >= totalPages}>Sau</button>
+                <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPageDest <= 1}>Trước</button>
+                <span className='join-item btn'>{currentPageDest} </span>
+                <button className='join-item btn' onClick={goToNextPage} disabled={currentPageDest >= totalPagesDest}>Sau</button>
             </div>
         </div>
     );
