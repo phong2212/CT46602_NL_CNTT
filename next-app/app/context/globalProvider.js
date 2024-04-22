@@ -14,7 +14,7 @@ export const GlobalProvider = ({ children }) => {
     const { user } = useClerk();
     const [isAdmin, setIsAdmin] = useState(false);
 
-    useEffect(() => {
+    React.useEffect(() => {
         const fetchAdminStatus = async () => {
             if (user) {
                 try {
@@ -32,12 +32,17 @@ export const GlobalProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [destinations, setDestinations] = useState([]);
     const [users, setUsers] = useState([]);
+    const [blogs, setBlogs] = useState([]);
     const [currentPageDest, setCurrentPageDest] = useState(1);
-    const [totalPagesDest, setTotalPagesDest] = useState(0);
     const [currentPageUser, setCurrentPageUser] = useState(1);
+    const [currentPageBlog, setCurrentPageBlog] = useState(1);
+    const [totalPagesDest, setTotalPagesDest] = useState(0);
     const [totalPagesUser, setTotalPagesUser] = useState(0);
+    const [totalPagesBlog, setTotalPagesBlog] = useState(0);
     const [searchTermDest, setSearchTermDest] = useState('');
     const [searchTermUser, setSearchTermUser] = useState('');
+    const [searchTermBlog, setSearchTermBlog] = useState('');
+
     const [modal, setModal] = useState(false);
 
 
@@ -102,6 +107,20 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    const allBlogs = async (page = currentPageBlog, search = searchTermBlog) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(`/api/blogs?page=${page}&limit=4&search=${search}`);
+
+            setBlogs(res.data.blogs || []);
+            setCurrentPageBlog(page);
+            setTotalPagesBlog(Math.ceil(res.data.total / 4));
+            setIsLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     React.useEffect(() => {
         allDests();
     }, [currentPageDest, searchTermDest]);
@@ -110,21 +129,31 @@ export const GlobalProvider = ({ children }) => {
         allUsers();
     }, [currentPageUser, searchTermUser]);
 
+    React.useEffect(() => {
+        allBlogs();
+    }, [currentPageBlog, searchTermBlog]);
+
 
     return (
         <GlobalContext.Provider value={{
             destinations,
             users,
+            blogs,
             allDests,
             allUsers,
+            allBlogs,
             currentPageDest,
             currentPageUser,
+            currentPageBlog,
             totalPagesDest,
             totalPagesUser,
+            totalPagesBlog,
             setSearchTermDest,
             setSearchTermUser,
+            setSearchTermBlog,
             setCurrentPageDest,
             setCurrentPageUser,
+            setCurrentPageBlog,
             isLoading,
             deleteDest,
             deleteUser,
@@ -133,7 +162,7 @@ export const GlobalProvider = ({ children }) => {
             closeModal,
             isAdmin,
         }}>
-            <GlobalUpdateContext.Provider value={{ allDests, allUsers, }}>
+            <GlobalUpdateContext.Provider value={{ allDests, allUsers, allBlogs, }}>
                 {children}
             </GlobalUpdateContext.Provider>
         </GlobalContext.Provider>

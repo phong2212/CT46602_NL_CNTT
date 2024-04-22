@@ -130,8 +130,8 @@ export async function GET(req: Request) {
 
         return NextResponse.json({ users, total, page, limit, status: 200 });
     } catch (error) {
-        console.log("Lỗi lấy địa điểm: ", error);
-        return NextResponse.json({ error: "Lỗi lấy địa điểm", status: 500 });
+        console.log("Lỗi lấy tài khoản: ", error);
+        return NextResponse.json({ error: "Lỗi lấy tài khoản", status: 500 });
     }
 }
 

@@ -41,11 +41,11 @@ const NavBar = () => {
                                     <summary>Khám phá</summary>
                                     <ul className="p-2">
                                         <li><Link href={"/destinations"}>Địa điểm</Link></li>
+                                        <li><Link href={"/blogs"}>Blog</Link></li>
                                         <li><Link href={"/favorite"}>Yêu thích</Link></li>
                                     </ul>
                                 </details>
                             </li>
-                            <li><Link href={"/blogs"}>Blog</Link></li>
                         </ul>
                     </div>
                 </div>

@@ -65,8 +65,12 @@ function DestItem({ id, name, description, continent, country, city, imageURL }:
       <tr>
         <td>{name}</td>
         <td>
-          {showFullDescription ? description : `${description.substring(0, 100)}`}
-          <button className='btn-link pl-1' onClick={toggleDescription}>{showFullDescription ? '[Thu gọn]' : '[mở rộng]'}</button>
+          {showFullDescription || description.length <= 100 ? description : `${description.substring(0, 100)}`}
+          {description.length > 100 && (
+            <button className='btn-link pl-1' onClick={toggleDescription}>
+              {showFullDescription ? '[Thu gọn]' : '[Mở rộng]'}
+            </button>
+          )}
         </td>
         <td>{continent}</td>
         <td>{country}</td>
