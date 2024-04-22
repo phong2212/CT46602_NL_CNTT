@@ -1,6 +1,9 @@
+import { useGlobalState } from '@/app/context/globalProvider';
+import { trash } from '@/app/utils/Icons';
 import React, { useState } from 'react';
 
 interface Props {
+    id: string;
     email: string;
     firstname: string;
     lastname: string;
@@ -8,8 +11,11 @@ interface Props {
     photo: string;
 }
 
-function DestItem({ email, firstname, lastname, createdAt, photo }: Props) {
+function DestItem({ id, email, firstname, lastname, createdAt, photo }: Props) {
     const [isZoomed, setIsZoomed] = useState(false);
+    const [isDelete, setIsDelete] = useState(false);
+    const { deleteUser } = useGlobalState();
+
 
     const ImageClick = () => {
         setIsZoomed(true);
@@ -17,6 +23,14 @@ function DestItem({ email, firstname, lastname, createdAt, photo }: Props) {
 
     const CloseZoom = () => {
         setIsZoomed(false);
+    };
+
+    const OpenDelete = () => {
+        setIsDelete(true);
+    };
+
+    const CloseDelete = () => {
+        setIsDelete(false);
     };
 
     const formattedCreatedAt = createdAt.toLocaleString();
@@ -37,6 +51,9 @@ function DestItem({ email, firstname, lastname, createdAt, photo }: Props) {
                         />
                     </div>
                 </td>
+                <td>
+                    <button className="btn glass m-1 text-red-500" onClick={OpenDelete}>{trash}</button>
+                </td>
             </tr>
             {isZoomed && (
                 <div className="modal modal-open">
@@ -44,6 +61,20 @@ function DestItem({ email, firstname, lastname, createdAt, photo }: Props) {
                         <img src={photo} alt={'Phóng to ảnh của ' + firstname + ' ' + lastname} className="max-w-full h-auto" />
                         <div className="modal-action">
                             <button className="btn btn-error" onClick={CloseZoom}>Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {isDelete && (
+                <div className="modal modal-open">
+                    <div className="modal-box">
+                        <h3 className="font-bold text-lg">CẢNH BÁO!</h3>
+                        <p className="py-4">Bạn có chắc là xóa địa điểm này không ?</p>
+                        <div className="modal-action">
+                            <button className="btn btn-md btn-success" onClick={() => {
+                                deleteUser(id);
+                            }}>Đồng ý</button>
+                            <button className="btn btn-md btn-error" onClick={CloseDelete}>Hủy</button>
                         </div>
                     </div>
                 </div>

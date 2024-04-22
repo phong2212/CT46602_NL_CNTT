@@ -90,6 +90,18 @@ export const GlobalProvider = ({ children }) => {
     }
 
 
+    const deleteUser = async (id) => {
+        try {
+            const res = await axios.delete(`/api/webhooks/clerk/${id}`);
+            toast.success("Xóa tài khoản thành công");
+
+            allUsers();
+        } catch (err) {
+            console.log(err);
+            toast.error("Xóa tài khoản thất bại");
+        }
+    }
+
     React.useEffect(() => {
         allDests();
     }, [currentPageDest, searchTermDest]);
@@ -115,6 +127,7 @@ export const GlobalProvider = ({ children }) => {
             setCurrentPageUser,
             isLoading,
             deleteDest,
+            deleteUser,
             modal,
             openModal,
             closeModal,

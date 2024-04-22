@@ -79,7 +79,7 @@ function Dest({ title }: Props) {
                             <th>Châu lục</th>
                             <th>Quốc gia</th>
                             <th>Thành phố</th>
-                            <th>Ảnh URL</th>
+                            <th>Ảnh địa điểm</th>
                             <th>Sửa/Xóa</th>
                         </tr>
                     </thead>

@@ -11,6 +11,7 @@ interface Props {
 
 interface Users {
     id: string;
+    clerkId: string;
     email: string;
     photo: string;
     firstName: string;
@@ -72,12 +73,14 @@ function User({ title }: Props) {
                             <th>Họ</th>
                             <th>Ngày tạo tài khoản</th>
                             <th>Ảnh đại diện</th>
+                            <th>Xóa</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.map((user: Users) => (
                             <UserItem
                                 key={user.id}
+                                id={user.clerkId}
                                 email={user.email}
                                 firstname={user.firstName}
                                 lastname={user.lastName}
