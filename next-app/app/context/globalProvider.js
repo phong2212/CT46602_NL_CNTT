@@ -121,6 +121,19 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    const deleteBlog = async (id) => {
+        try {
+            const res = await axios.delete(`/api/blogs/${id}`);
+            toast.success("Xóa blog thành công");
+
+            allBlogs();
+        } catch (err) {
+            console.log(err);
+            toast.error("Xóa blog thất bại");
+        }
+    }
+
+
     React.useEffect(() => {
         allDests();
     }, [currentPageDest, searchTermDest]);
@@ -157,6 +170,7 @@ export const GlobalProvider = ({ children }) => {
             isLoading,
             deleteDest,
             deleteUser,
+            deleteBlog,
             modal,
             openModal,
             closeModal,

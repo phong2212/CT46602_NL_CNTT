@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { trash } from '@/app/utils/Icons';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useGlobalState } from '@/app/context/globalProvider';
 
 
 interface Props {
@@ -16,7 +17,8 @@ interface Props {
     imageURL: string;
 }
 
-function DestItem({ id, authorId, title, content, createdAt, updatedAt, imageURL }: Props) {
+function BlogItem({ id, authorId, title, content, createdAt, updatedAt, imageURL }: Props) {
+    const { deleteBlog } = useGlobalState();
     const [isZoomed, setIsZoomed] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const [showFullContent, setShowFullContent] = useState(false);
@@ -110,7 +112,7 @@ function DestItem({ id, authorId, title, content, createdAt, updatedAt, imageURL
                         <p className="py-4">Bạn có chắc là xóa blog này không ?</p>
                         <div className="modal-action">
                             <button className="btn btn-md btn-success" onClick={() => {
-                                // deleteDest(id);
+                                deleteBlog(id);
                             }}>Đồng ý</button>
                             <button className="btn btn-md btn-error" onClick={CloseDelete}>Hủy</button>
                         </div>
@@ -121,4 +123,4 @@ function DestItem({ id, authorId, title, content, createdAt, updatedAt, imageURL
     );
 }
 
-export default DestItem;
+export default BlogItem;

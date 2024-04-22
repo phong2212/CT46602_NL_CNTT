@@ -11,7 +11,7 @@ interface Props {
     photo: string;
 }
 
-function DestItem({ id, email, firstname, lastname, createdAt, photo }: Props) {
+function UserItem({ id, email, firstname, lastname, createdAt, photo }: Props) {
     const [isZoomed, setIsZoomed] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
     const { deleteUser } = useGlobalState();
@@ -83,4 +83,4 @@ function DestItem({ id, email, firstname, lastname, createdAt, photo }: Props) {
     );
 }
 
-export default DestItem;
+export default UserItem;
