@@ -2,10 +2,8 @@
 
 import React, { useState } from 'react'
 import BlogItem from '../BlogItem/BlogItem';
-import { plus } from '@/app/utils/Icons';
 import { useGlobalState, useGlobalUpdate } from '../../context/globalProvider';
-import CreateContent from '../Modals/CreateContent';
-import Modal from '../Modals/Modal';
+
 
 
 interface Props {
@@ -81,16 +79,16 @@ function Blog({ title }: Props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {blogs.map((destination: Blogs) => (
+                        {blogs.map((blog: Blogs) => (
                             <BlogItem
-                                key={destination.id}
-                                id={destination.id}
-                                authorId={destination.authorId}
-                                title={destination.title}
-                                content={destination.content}
-                                createdAt={destination.createdAt}
-                                updatedAt={destination.updatedAt}
-                                imageURL={destination.imageURL}
+                                key={blog.id}
+                                id={blog.id}
+                                authorId={blog.authorId}
+                                title={blog.title}
+                                content={blog.content}
+                                createdAt={blog.createdAt}
+                                updatedAt={blog.updatedAt}
+                                imageURL={blog.imageURL}
                             />
                         ))}
                     </tbody>

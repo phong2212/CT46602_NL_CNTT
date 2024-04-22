@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import Slider from "./components/Slider/Slider";
 import YouTubeEmbed from "./components/YoutubeEmbed/YoutubeEmbed";

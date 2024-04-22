@@ -30,7 +30,7 @@ const NavBar = () => {
                 'invisible': isManagerPath || isSignOutPath || isSignInPath,
             },
         )}>
-            <div className="navbar bg-base-100 border-2 rounded-3xl shadow-md">
+            <div className="navbar bg-base-300 rounded-3xl shadow-md">
                 <div className="flex-1">
                     <Link href={"/"} className="btn btn-ghost text-xl text-sky-500">Wanderlust</Link>
                     <div className="navbar-center hidden lg:flex">
@@ -39,7 +39,7 @@ const NavBar = () => {
                             <li>
                                 <details>
                                     <summary>Khám phá</summary>
-                                    <ul className="p-2">
+                                    <ul>
                                         <li><Link href={"/destinations"}>Địa điểm</Link></li>
                                         <li><Link href={"/blogs"}>Blog</Link></li>
                                         <li><Link href={"/favorite"}>Yêu thích</Link></li>
@@ -50,24 +50,36 @@ const NavBar = () => {
                     </div>
                 </div>
                 <div className="flex-none gap-2">
-                    <div className="form-control">
-                        <input type="text" placeholder="Search" className="input input-bordered w-24 focus:caret-black md:w-auto" />
-                    </div>
+                    <button
+                        onClick={() => {
+                            const theme = document.documentElement.getAttribute('data-theme');
+                            if (theme === 'dark') {
+                                document.documentElement.setAttribute('data-theme', 'cupcake');
+                            } else {
+                                document.documentElement.setAttribute('data-theme', 'dark');
+                            }
+                        }}
+                        className="btn btn-ghost btn-circle"
+                    >
+                        <i className="fas fa-moon"></i>
+                    </button>
                     {user ? (
                         <div className="dropdown dropdown-end">
-                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full">
-                                    <img alt={"Ảnh của " + fullName} src={imageUrl} />
+                            <div tabIndex={0} role="button" className="btn btn-ghost rounded-full">
+                                <div className=' avatar'>
+                                    <div className="w-10 rounded-full">
+                                        <img alt={"Ảnh của " + fullName} src={imageUrl} />
+                                    </div>
                                 </div>
+                                {fullName}
                             </div>
-                            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-44">
                                 <li>
                                     <Link className="justify-between" href={"/profile"}>
                                         Thông tin cá nhân
                                     </Link>
                                 </li>
                                 {isAdmin && <li><a href={"/manager"}>Quản lý</a></li>}
-                                <li><Link href={"/settings"}>Cài đặt</Link></li>
                                 <li><button onClick={() => signOut(() => router.push("/"))}>Đăng xuất</button></li>
                             </ul>
                         </div>

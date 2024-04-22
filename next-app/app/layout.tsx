@@ -45,6 +45,7 @@ export default function RootLayout({
           <ContextProvider >
             <NavBar />
             {children}
+            <hr />
             <Footer />
           </ContextProvider>
         </body>
