@@ -97,7 +97,7 @@ function User({ title }: Props) {
                     </div>
                 </div>
             )}
-            <div className='join flex justify-center'>
+            <div className='join flex justify-center mt-2'>
                 <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPageUser <= 1}>Trước</button>
                 <span className='join-item btn'>{currentPageUser} </span>
                 <button className='join-item btn' onClick={goToNextPage} disabled={currentPageUser >= totalPagesUser}>Sau</button>

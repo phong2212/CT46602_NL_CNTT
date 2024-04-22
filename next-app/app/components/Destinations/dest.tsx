@@ -68,7 +68,6 @@ function Dest({ title }: Props) {
                     </div>
                 </form>
 
-                <button className='btn btn-accent' onClick={openModal}>{plus} Thêm địa điểm</button>
             </div>
             {!isLoading ? (
                 <table className="table table-xs">
@@ -105,11 +104,17 @@ function Dest({ title }: Props) {
                     </div>
                 </div>
             )}
-            <div className='join flex justify-center'>
-                <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPageDest <= 1}>Trước</button>
-                <span className='join-item btn'>{currentPageDest} </span>
-                <button className='join-item btn' onClick={goToNextPage} disabled={currentPageDest >= totalPagesDest}>Sau</button>
+            <div className='flex justify-end mr-10 mt-2'>
+                <div className='join '>
+                    <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPageDest <= 1}>Trước</button>
+                    <span className='join-item btn'>{currentPageDest} </span>
+                    <button className='join-item btn' onClick={goToNextPage} disabled={currentPageDest >= totalPagesDest}>Sau</button>
+                </div>
+                <div className='ml-72'>
+                    <button className='btn btn-accent' onClick={openModal}>{plus} Thêm địa điểm</button>
+                </div>
             </div>
+
         </div>
     );
 }

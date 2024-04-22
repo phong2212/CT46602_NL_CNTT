@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { edit, trash } from '@/app/utils/Icons';
-import { useGlobalState } from '@/app/context/globalProvider';
+import { trash } from '@/app/utils/Icons';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -72,8 +71,8 @@ function DestItem({ id, authorId, title, content, createdAt, updatedAt, imageURL
                 <td>{user.firstName + ' ' + user.lastName}</td>
                 <td>{title}</td>
                 <td>
-                    {showFullContent || content.length <= 100 ? content : `${content.substring(0, 100)}`}
-                    {content.length > 100 && (
+                    {showFullContent || content.length <= 80 ? content : `${content.substring(0, 80)}...`}
+                    {content.length > 80 && (
                         <button className='btn-link pl-1' onClick={toggleContent}>
                             {showFullContent ? '[Thu gọn]' : '[Mở rộng]'}
                         </button>
@@ -91,7 +90,6 @@ function DestItem({ id, authorId, title, content, createdAt, updatedAt, imageURL
                     </div>
                 </td>
                 <td>
-                    <button className="btn glass m-1 text-yellow-500" >{edit}</button>
                     <button className="btn glass m-1 text-red-500" onClick={OpenDelete}>{trash}</button>
                 </td>
             </tr>

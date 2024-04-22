@@ -66,8 +66,6 @@ function Blog({ title }: Props) {
                         </button>
                     </div>
                 </form>
-
-                <button className='btn btn-accent' >{plus} Thêm blog</button>
             </div>
             {!isLoading ? (
                 <table className="table table-xs">
@@ -79,7 +77,7 @@ function Blog({ title }: Props) {
                             <th>Ngày tạo</th>
                             <th>Ngày cập nhật</th>
                             <th>Ảnh địa điểm</th>
-                            <th>Sửa/Xóa</th>
+                            <th>Xóa</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,7 +102,7 @@ function Blog({ title }: Props) {
                     </div>
                 </div>
             )}
-            <div className='join flex justify-center'>
+            <div className='join flex justify-center mt-2'>
                 <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPageBlog <= 1}>Trước</button>
                 <span className='join-item btn'>{currentPageBlog} </span>
                 <button className='join-item btn' onClick={goToNextPage} disabled={currentPageBlog >= totalPagesBlog}>Sau</button>
