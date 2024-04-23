@@ -25,13 +25,13 @@ function SideBar() {
                     const link = item.link;
                     return (
                         <li className={clsx(
-                            'relative pt-2 pb-4 pr-4 pl-8 mx-0 my-[0.3rem] grid grid-cols-5 cursor-pointer after:absolute after:content-[""] after:bottom-0 after:left-0 after:top-0 after:right-0 after:h-full after:w-0 after:bg-gray-500 after:opacity-20 after:z-10 after:transition-all after:ease-in-out after:delay-300 before:absolute before:content-[""] before:bottom-0 before:left-0 before:top-0 before:right-0 before:h-full before:w-0 before:bg-sky-400 before:rounded-l-md hover:after:w-full',
+                            'relative py-3 pr-4 pl-8 mx-0 my-[0.3rem] grid grid-cols-5 cursor-pointer after:absolute after:content-[""] after:bottom-0 after:left-0 after:top-0 after:right-0 after:h-full after:w-0 after:bg-gray-500 after:opacity-20 after:z-10 after:transition-all after:ease-in-out after:delay-300 before:absolute before:content-[""] before:bottom-0 before:left-0 before:top-0 before:right-0 before:h-full before:w-0 before:bg-sky-400 before:rounded-l-md hover:after:w-full',
                             {
                                 'after:w-full text-white before:w-1': pathname === link,
                             },
                         )}
                             onClick={() => handleClick(link)}
-                            key = {item.id}
+                            key={item.id}
                         >
                             {item.icon}
                             <Link href={link} className='font-medium transition-all delay-300 ease-in-out z-20'>

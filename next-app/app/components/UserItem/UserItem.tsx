@@ -1,5 +1,6 @@
 import { useGlobalState } from '@/app/context/globalProvider';
 import { trash } from '@/app/utils/Icons';
+import Image from 'next/image';
 import React, { useState } from 'react';
 
 interface Props {
@@ -44,7 +45,9 @@ function UserItem({ id, email, firstname, lastname, createdAt, photo }: Props) {
                 <td>{formattedCreatedAt}</td>
                 <td className="avatar cursor-pointer">
                     <div className="w-24 rounded">
-                        <img
+                        <Image
+                            width={800}
+                            height={800}
                             src={photo}
                             alt={'Ảnh của ' + firstname + ' ' + lastname}
                             onClick={ImageClick}
@@ -58,7 +61,11 @@ function UserItem({ id, email, firstname, lastname, createdAt, photo }: Props) {
             {isZoomed && (
                 <div className="modal modal-open">
                     <div className="modal-box text-center">
-                        <img src={photo} alt={'Phóng to ảnh của ' + firstname + ' ' + lastname} className="max-w-full h-auto" />
+                        <Image
+                            width={1600}
+                            height={1600}
+                            src={photo} alt={'Phóng to ảnh của ' + firstname + ' ' + lastname}
+                            className="max-w-full h-auto" />
                         <div className="modal-action">
                             <button className="btn btn-error" onClick={CloseZoom}>Đóng</button>
                         </div>

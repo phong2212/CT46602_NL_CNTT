@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
 import { useClerk, useUser } from '@clerk/nextjs';
 import { useGlobalState } from '@/app/context/globalProvider';
+import Image from 'next/image';
 
 
 const NavBar = () => {
@@ -68,7 +69,11 @@ const NavBar = () => {
                             <div tabIndex={0} role="button" className="btn btn-ghost rounded-full">
                                 <div className=' avatar'>
                                     <div className="w-10 rounded-full">
-                                        <img alt={"Ảnh của " + fullName} src={imageUrl} />
+                                        <Image
+                                            width={800}
+                                            height={800}
+                                            alt={"Ảnh của " + fullName}
+                                            src={imageUrl} />
                                     </div>
                                 </div>
                                 {fullName}
@@ -87,7 +92,11 @@ const NavBar = () => {
                         <Link href={"/sign-in"}>
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                                 <div className="w-10 rounded-full">
-                                    <img alt={"Ảnh của " + fullName} src={imageUrl} />
+                                    <Image
+                                        width={800}
+                                        height={800}
+                                        alt={"Ảnh của " + fullName}
+                                        src={imageUrl} />
                                 </div>
                             </div>
                         </Link>

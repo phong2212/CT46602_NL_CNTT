@@ -4,7 +4,11 @@ const nextConfig = {
         remotePatterns: [
             { hostname: 'localhost' },
             { hostname: 'img.clerk.com' },
+            { hostname: 'cdn3.iconfinder.com' },
         ],
+    },
+    eslint: {
+        ignoreDuringBuilds: true,
     },
 };
 

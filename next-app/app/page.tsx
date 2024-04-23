@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Slider from "./components/Slider/Slider";
 import YouTubeEmbed from "./components/YoutubeEmbed/YoutubeEmbed";
+import HomePage from "./components/Home/Home";
 
 export default function Home() {
   return (
     <main >
 
-      <div className="relative isolate overflow-hidden bg-gray-900 caret-transparent">
+      <div className="relative isolate overflow-hidden bg-gray-900 caret-transparent  rounded-b-badge drop-shadow-lg">
 
         <Slider />
 
@@ -27,9 +28,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="h-screen bg-base">
-
-      </div>
+      <HomePage />
 
     </main>
   );

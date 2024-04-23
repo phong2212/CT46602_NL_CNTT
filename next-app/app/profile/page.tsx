@@ -6,17 +6,9 @@ import Image from 'next/image'
 
 const page = () => {
     return (
-        <div className='relative'>
-            <div className='absolute top-96 h-screen w-full flex items-center justify-center'>
-                <UserProfile />
+        <div className='bg-sky-300 py-28 h-full w-full flex items-center justify-center'>
+            <UserProfile />
 
-            </div>
-            <Image
-                width={2000}
-                height={2000}
-                src={"/img/bgprofile.jpg"} alt={'Ảnh nền profile'}
-                className='-z-10 w-full h-full'
-            />
         </div>
     )
 }

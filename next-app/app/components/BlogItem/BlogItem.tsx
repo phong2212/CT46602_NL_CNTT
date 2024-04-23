@@ -1,11 +1,9 @@
-// 'use client'
+'use client'
 
-// import React, { useEffect, useState } from 'react';
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import { trash } from '@/app/utils/Icons';
-// import axios from 'axios';
-// import toast from 'react-hot-toast';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 import { useGlobalState } from '@/app/context/globalProvider';
 
 
@@ -49,31 +47,30 @@ function BlogItem({ id, authorId, title, content, createdAt, updatedAt, imageURL
     const formattedCreatedAt = new Date(createdAt).toLocaleDateString();
     const formattedUpdatedAt = new Date(updatedAt).toLocaleDateString();
 
-    // const [user, setUser] = useState({
-    //     firstName: '',
-    //     lastName: '',
-    // });
+    const [user, setUser] = useState({
+        firstName: '',
+        lastName: '',
+    });
 
-    // useEffect(() => {
-    //     const fetchUser = async () => {
-    //         try {
-    //             const response = await axios.get(`/api/webhooks/clerk/${authorId}`);
-    //             setUser(response.data.user);
-    //         } catch (error) {
-    //             toast.error("Lỗi khi lấy thông tin tài khoản");
-    //             console.error(error);
-    //         }
-    //     };
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`/api/webhooks/clerk/${authorId}`);
+                setUser(response.data.user);
+            } catch (error) {
+                toast.error("Lỗi khi lấy thông tin tài khoản");
+                console.error(error);
+            }
+        };
 
-    //     fetchUser();
-    // }, [authorId]);
+        fetchUser();
+    }, [authorId]);
 
 
     return (
         <>
             <tr>
-                {/* <td>{user.firstName + ' ' + user.lastName}</td> */}
-                <td>{authorId}</td>
+                <td>{user.firstName + ' ' + user.lastName}</td>
                 <td>{title}</td>
                 <td>
                     {showFullContent || content.length <= 80 ? content : `${content.substring(0, 80)}...`}

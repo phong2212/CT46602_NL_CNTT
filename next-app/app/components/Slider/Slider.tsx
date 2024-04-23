@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 const backgrounds = [
@@ -22,7 +23,9 @@ const Slider = () => {
     <div className="carousel w-full h-screen absolute inset-0 -z-10 overflow-hidden">
       {backgrounds.map((background, index) => (
         <div key={index} className={`carousel-item w-full ${index === currentIndex ? '' : 'hidden'}`}>
-          <img
+          <Image
+            width={1600}
+            height={1600}
             src={background}
             className="w-full"
             alt={`background${index + 1}`}

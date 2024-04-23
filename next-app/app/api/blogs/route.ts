@@ -2,6 +2,44 @@ import prisma from "@/app/utils/connect";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
+export async function POST(req: Request) {
+    try {
+        const { userId } = auth();
+
+        if (!userId) {
+            return NextResponse.json({ error: "Không có quyền truy cập", status: 401 })
+        }
+
+        // const { name, description, continent, country, city, imageURL } = await req.json();
+
+        // if (!name || !description || !continent || !country || !city || !imageURL) {
+        //     return NextResponse.json({ error: "Vui lòng nhập đầy đủ thông tin", status: 400 })
+        // }
+
+        // if (name.length < 3) {
+        //     return NextResponse.json({ error: "Tiêu đề phải dài hơn 3 kí tự", status: 400 })
+        // }
+
+        // const destinations = await prisma.destinations.create({
+        //     data: {
+        //         name,
+        //         description,
+        //         continent,
+        //         country,
+        //         city,
+        //         imageURL,
+        //     }
+        // });
+
+
+        return NextResponse.json({ status: 200 });
+
+    } catch (error) {
+        console.log("Lỗi tạo blog: ", error);
+        return NextResponse.json({ error: "Lỗi tạo blog", status: 500 });
+    }
+}
+
 export async function GET(req: Request) {
     try {
         const { userId } = auth();

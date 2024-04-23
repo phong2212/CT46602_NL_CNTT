@@ -16,6 +16,7 @@ const Footer = () => {
         'invisible absolute top-0': isManagerPath || isSignOutPath || isSignInPath,
     },
     )}>
+        <hr />
         <div className="footer p-10 bg-base-100 text-base-content">
             <aside>
                 <Link href={"/"} className="btn btn-ghost text-4xl text-sky-500">Wanderlust</Link>
