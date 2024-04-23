@@ -56,11 +56,10 @@ export async function GET(req: Request) {
         const destinations = await prisma.destinations.findMany({
             orderBy: {
                 id: 'desc',
-              },
+            },
             where: {
                 OR: [
                     { name: { contains: search, mode: 'insensitive' } },
-                    { description: { contains: search, mode: 'insensitive' } },
                     { continent: { contains: search, mode: 'insensitive' } },
                     { country: { contains: search, mode: 'insensitive' } },
                     { city: { contains: search, mode: 'insensitive' } },
@@ -70,11 +69,21 @@ export async function GET(req: Request) {
             skip: skip,
         });
 
+        const asia = await prisma.destinations.findMany({
+            orderBy: {
+                id: 'desc',
+            },
+            where: {
+                continent: 'Châu Á',
+            },
+            take: limit,
+            skip: skip,
+        });
+
         const total = await prisma.destinations.count({
             where: {
                 OR: [
                     { name: { contains: search, mode: 'insensitive' } },
-                    { description: { contains: search, mode: 'insensitive' } },
                     { continent: { contains: search, mode: 'insensitive' } },
                     { country: { contains: search, mode: 'insensitive' } },
                     { city: { contains: search, mode: 'insensitive' } },
@@ -82,11 +91,18 @@ export async function GET(req: Request) {
             },
         });
 
-        return NextResponse.json({ destinations, total, page, limit, status: 200 });
+        const totalAsia = await prisma.destinations.count({
+            where: {
+                continent: 'Châu Á',
+            },
+        });
+
+        return NextResponse.json({ destinations, asia, total, totalAsia, page, limit, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy địa điểm: ", error);
         return NextResponse.json({ error: "Lỗi lấy địa điểm", status: 500 });
     }
 }
+
 
 

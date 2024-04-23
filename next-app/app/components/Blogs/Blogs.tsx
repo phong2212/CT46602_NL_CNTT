@@ -20,8 +20,18 @@ interface Blogs {
     imageURL: string;
 }
 
+interface Users {
+    id: string;
+    clerkId: string;
+    email: string;
+    photo: string;
+    firstName: string;
+    lastName: string;
+    createdAt: GLfloat;
+}
+
 function Blog({ title }: Props) {
-    const { blogs, currentPageBlog, totalPagesBlog, setCurrentPageBlog, isLoading } = useGlobalState();
+    const { blogs, users, currentPageBlog, totalPagesBlog, setCurrentPageBlog, isLoading } = useGlobalState();
     const { allBlogs } = useGlobalUpdate();
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -79,18 +89,22 @@ function Blog({ title }: Props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {blogs.map((blog: Blogs) => (
-                            <BlogItem
-                                key={blog.id}
-                                id={blog.id}
-                                authorId={blog.authorId}
-                                title={blog.title}
-                                content={blog.content}
-                                createdAt={blog.createdAt}
-                                updatedAt={blog.updatedAt}
-                                imageURL={blog.imageURL}
-                            />
-                        ))}
+                        {blogs.map((blog: Blogs) => {
+                            const authorUser = users.find((user: Users) => user.clerkId === blog.authorId);
+                            return (
+                                <BlogItem
+                                    key={blog.id}
+                                    id={blog.id}
+                                    author={authorUser ? `${authorUser.firstName} ${authorUser.lastName}` : 'Unknown'}
+                                    title={blog.title}
+                                    content={blog.content}
+                                    createdAt={blog.createdAt}
+                                    updatedAt={blog.updatedAt}
+                                    imageURL={blog.imageURL}
+                                />
+                            );
+                        })}
+
                     </tbody>
                 </table>
             ) : (

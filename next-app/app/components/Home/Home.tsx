@@ -1,15 +1,62 @@
+'use client'
+
+
+import { useGlobalState } from '@/app/context/globalProvider';
 import Image from 'next/image'
 import React from 'react'
 
-const HomePage = () => {
+interface Destinations {
+    id: string;
+    name: string;
+    description: string;
+    continent: string;
+    country: string;
+    city: string;
+    imageURL: string;
+}
+
+function HomePage() {
+    const { Asiadestinations, currentPageAsia, totalPagesAsia, setCurrentPageAsia, isLoading } = useGlobalState();
+
+    const goToNextPage = () => {
+        if (currentPageAsia < totalPagesAsia) {
+            setCurrentPageAsia(currentPageAsia + 1);
+        }
+    };
+
+    const goToPreviousPage = () => {
+        if (currentPageAsia > 1) {
+            setCurrentPageAsia(currentPageAsia - 1);
+        }
+    };
+
     return (
         <div className='h-full'>
 
             <div className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
                 <h1 className='text-3xl font-bold text-center text-sky-400'>
-                    Khám phá địa điểm nổi bật tại Châu Á
+                    Khám phá địa điểm nổi bật tại châu Á
                 </h1>
-
+                {!isLoading ? (
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-4 mt-10">
+                        {Asiadestinations.map((asia: Destinations) => (
+                            <div key={asia.id} className="flex justify-center items-center">
+                                <img src={asia.imageURL} alt={asia.name} className="w-full max-w-full h-[15rem]" />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div>
+                        <div className='flex flex-row justify-center items-center h-[17.5rem]'>
+                            <span className="loading loading-spinner loading-lg"></span>
+                        </div>
+                    </div>
+                )}
+                <div className='join flex justify-center mt-5 '>
+                    <button className='join-item btn' onClick={goToPreviousPage} disabled={currentPageAsia <= 1}>Trước</button>
+                    <span className='join-item btn'>{currentPageAsia} </span>
+                    <button className='join-item btn' onClick={goToNextPage} disabled={currentPageAsia >= totalPagesAsia}>Sau</button>
+                </div>
             </div>
 
             <div className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>

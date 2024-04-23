@@ -31,12 +31,15 @@ export const GlobalProvider = ({ children }) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [destinations, setDestinations] = useState([]);
+    const [Asiadestinations, setAsiaDestinations] = useState([]);
     const [users, setUsers] = useState([]);
     const [blogs, setBlogs] = useState([]);
     const [currentPageDest, setCurrentPageDest] = useState(1);
+    const [currentPageAsia, setCurrentPageAsia] = useState(1);
     const [currentPageUser, setCurrentPageUser] = useState(1);
     const [currentPageBlog, setCurrentPageBlog] = useState(1);
     const [totalPagesDest, setTotalPagesDest] = useState(0);
+    const [totalPagesAsia, setTotalPagesAsia] = useState(0);
     const [totalPagesUser, setTotalPagesUser] = useState(0);
     const [totalPagesBlog, setTotalPagesBlog] = useState(0);
     const [searchTermDest, setSearchTermDest] = useState('');
@@ -59,7 +62,6 @@ export const GlobalProvider = ({ children }) => {
         setIsLoading(true);
         try {
             const res = await axios.get(`/api/destinations?page=${page}&limit=4&search=${search}`);
-
             setDestinations(res.data.destinations || []);
             setCurrentPageDest(page);
             setTotalPagesDest(Math.ceil(res.data.total / 4));
@@ -68,6 +70,21 @@ export const GlobalProvider = ({ children }) => {
             console.log(err);
         }
     };
+
+    const allAsia = async (page = currentPageAsia) => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(`/api/destinations?page=${page}&limit=4`);
+            setAsiaDestinations(res.data.asia || []);
+            setCurrentPageAsia(page);
+            setTotalPagesAsia(Math.ceil(res.data.totalAsia / 4));
+            setIsLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+
 
     const deleteDest = async (id) => {
         try {
@@ -146,25 +163,30 @@ export const GlobalProvider = ({ children }) => {
         allBlogs();
     }, [currentPageBlog, searchTermBlog]);
 
+    React.useEffect(() => {
+        allAsia();
+    }, [currentPageAsia]);
+
 
     return (
         <GlobalContext.Provider value={{
             destinations,
+            Asiadestinations,
             users,
             blogs,
-            allDests,
-            allUsers,
-            allBlogs,
             currentPageDest,
+            currentPageAsia,
             currentPageUser,
             currentPageBlog,
             totalPagesDest,
+            totalPagesAsia,
             totalPagesUser,
             totalPagesBlog,
             setSearchTermDest,
             setSearchTermUser,
             setSearchTermBlog,
             setCurrentPageDest,
+            setCurrentPageAsia,
             setCurrentPageUser,
             setCurrentPageBlog,
             isLoading,

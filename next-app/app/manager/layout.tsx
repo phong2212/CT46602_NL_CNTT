@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 500);
+        }, 1500);
 
         return () => clearTimeout(timer);
     }, [isAdmin]);
