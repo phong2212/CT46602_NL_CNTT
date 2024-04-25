@@ -8,3 +8,7 @@ export const user = <i className="fa-solid fa-user"></i>;
 export const facebook = <i className="fa-brands fa-square-facebook"></i>;
 export const instagram = <i className="fa-brands fa-square-instagram"></i>;
 export const twitter = <i className="fa-brands fa-square-x-twitter"></i>;
+export const arrowRight = <i className="fa-solid fa-arrow-right"></i>;
+export const arrowLeft = <i className="fa-solid fa-arrow-left"></i>;
+export const people = <i className="fa-solid fa-universal-access"></i>;
+export const star = <i className="fa-solid fa-star"></i>;

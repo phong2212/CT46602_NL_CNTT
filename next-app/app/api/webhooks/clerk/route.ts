@@ -128,7 +128,16 @@ export async function GET(req: Request) {
             },
         });
 
-        return NextResponse.json({ users, total, page, limit, status: 200 });
+        const admin = await prisma.users.findMany({
+            select: {
+                clerkId: true,
+            },
+            where: {
+                role: 'ADMIN',
+            },
+        });
+
+        return NextResponse.json({ admin, users, total, page, limit, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy tài khoản: ", error);
         return NextResponse.json({ error: "Lỗi lấy tài khoản", status: 500 });

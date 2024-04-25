@@ -42,11 +42,6 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
     try {
-        const { userId } = auth();
-        if (!userId) {
-            return NextResponse.json({ error: "Không có quyền truy cập", status: 401 })
-        }
-
         const url = new URL(req.url);
         const search = url.searchParams.get('search') || '';
         const page = parseInt(url.searchParams.get('page') || '1', 10);
@@ -76,8 +71,6 @@ export async function GET(req: Request) {
             where: {
                 continent: 'Châu Á',
             },
-            take: limit,
-            skip: skip,
         });
 
         const total = await prisma.destinations.count({
@@ -91,13 +84,12 @@ export async function GET(req: Request) {
             },
         });
 
-        const totalAsia = await prisma.destinations.count({
-            where: {
-                continent: 'Châu Á',
-            },
+        const random = await prisma.destinations.findManyRandom(6, {
+            select: { id: true, name: true, imageURL: true },
+            where: {},
         });
 
-        return NextResponse.json({ destinations, asia, total, totalAsia, page, limit, status: 200 });
+        return NextResponse.json({ destinations, asia, random, total, page, limit, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy địa điểm: ", error);
         return NextResponse.json({ error: "Lỗi lấy địa điểm", status: 500 });

@@ -18,8 +18,8 @@ export const GlobalProvider = ({ children }) => {
         const fetchAdminStatus = async () => {
             if (user) {
                 try {
-                    const response = await axios.get(`/api/webhooks/clerk/${user.id}`);
-                    setIsAdmin(response.data.user.role === 'ADMIN');
+                    const res = await axios.get(`/api/webhooks/clerk`);
+                    setIsAdmin(res.data.admin.some(admin => admin.clerkId === user.id));
                 } catch (error) {
                     console.error(error);
                 }
@@ -32,14 +32,13 @@ export const GlobalProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [destinations, setDestinations] = useState([]);
     const [Asiadestinations, setAsiaDestinations] = useState([]);
+    const [Randomdestinations, setRandomDestinations] = useState([]);
     const [users, setUsers] = useState([]);
     const [blogs, setBlogs] = useState([]);
     const [currentPageDest, setCurrentPageDest] = useState(1);
-    const [currentPageAsia, setCurrentPageAsia] = useState(1);
     const [currentPageUser, setCurrentPageUser] = useState(1);
     const [currentPageBlog, setCurrentPageBlog] = useState(1);
     const [totalPagesDest, setTotalPagesDest] = useState(0);
-    const [totalPagesAsia, setTotalPagesAsia] = useState(0);
     const [totalPagesUser, setTotalPagesUser] = useState(0);
     const [totalPagesBlog, setTotalPagesBlog] = useState(0);
     const [searchTermDest, setSearchTermDest] = useState('');
@@ -58,6 +57,7 @@ export const GlobalProvider = ({ children }) => {
         setModal(false);
     };
 
+
     const allDests = async (page = currentPageDest, search = searchTermDest) => {
         setIsLoading(true);
         try {
@@ -71,20 +71,27 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
-    const allAsia = async (page = currentPageAsia) => {
+    const allAsia = async () => {
         setIsLoading(true);
         try {
-            const res = await axios.get(`/api/destinations?page=${page}&limit=4`);
+            const res = await axios.get(`/api/destinations`);
             setAsiaDestinations(res.data.asia || []);
-            setCurrentPageAsia(page);
-            setTotalPagesAsia(Math.ceil(res.data.totalAsia / 4));
             setIsLoading(false);
         } catch (err) {
             console.log(err);
         }
     };
 
-
+    const randomDest = async () => {
+        setIsLoading(true);
+        try {
+            const res = await axios.get(`/api/destinations`);
+            setRandomDestinations(res.data.random || []);
+            setIsLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const deleteDest = async (id) => {
         try {
@@ -150,6 +157,10 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    React.useEffect(() => {
+        allAsia();
+        randomDest();
+    }, []);
 
     React.useEffect(() => {
         allDests();
@@ -163,30 +174,25 @@ export const GlobalProvider = ({ children }) => {
         allBlogs();
     }, [currentPageBlog, searchTermBlog]);
 
-    React.useEffect(() => {
-        allAsia();
-    }, [currentPageAsia]);
 
 
     return (
         <GlobalContext.Provider value={{
             destinations,
             Asiadestinations,
+            Randomdestinations,
             users,
             blogs,
             currentPageDest,
-            currentPageAsia,
             currentPageUser,
             currentPageBlog,
             totalPagesDest,
-            totalPagesAsia,
             totalPagesUser,
             totalPagesBlog,
             setSearchTermDest,
             setSearchTermUser,
             setSearchTermBlog,
             setCurrentPageDest,
-            setCurrentPageAsia,
             setCurrentPageUser,
             setCurrentPageBlog,
             isLoading,

@@ -1,7 +1,8 @@
 'use client'
 
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useKeenSlider } from "keen-slider/react"
+import "keen-slider/keen-slider.min.css"
 
 const backgrounds = [
   "/img/bg1.jpg",
@@ -9,21 +10,58 @@ const backgrounds = [
   "/img/bg3.jpg",
 ];
 
-const Slider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+function Slider() {
+  const [opacities, setOpacities] = React.useState<number[]>([])
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((currentIndex + 1) % backgrounds.length);
-    }, 15000);
-    return () => clearInterval(interval);
-  }, [currentIndex]);
+  const [sliderRef] = useKeenSlider<HTMLDivElement>({
+    slides: backgrounds.length,
+    loop: true,
+    detailsChanged(s) {
+      const new_opacities = s.track.details.slides.map((slide) => slide.portion)
+      setOpacities(new_opacities)
+    },
+  },
+    [
+      (slider) => {
+        let timeout: ReturnType<typeof setTimeout>
+        let mouseOver = false
+        function clearNextTimeout() {
+          clearTimeout(timeout)
+        }
+        function nextTimeout() {
+          clearTimeout(timeout)
+          if (mouseOver) return
+          timeout = setTimeout(() => {
+            slider.next()
+          }, 10000)
+        }
+        slider.on("created", () => {
+          slider.container.addEventListener("mouseover", () => {
+            mouseOver = true
+            clearNextTimeout()
+          })
+          slider.container.addEventListener("mouseout", () => {
+            mouseOver = false
+            nextTimeout()
+          })
+          nextTimeout()
+        })
+        slider.on("dragStarted", clearNextTimeout)
+        slider.on("animationEnded", nextTimeout)
+        slider.on("updated", nextTimeout)
+      },
+    ]
+  )
 
   return (
-    <div className="carousel w-full h-screen absolute inset-0 -z-10 overflow-hidden">
+    <div ref={sliderRef} className="fader relative">
       {backgrounds.map((background, index) => (
-        <div key={index} className={`carousel-item w-full ${index === currentIndex ? '' : 'hidden'}`}>
-          <Image
+        <div
+          key={index}
+          className="fader__slide absolute top-0 left-0"
+          style={{ opacity: opacities[index] }}
+        >
+          <img
             width={1600}
             height={1600}
             src={background}

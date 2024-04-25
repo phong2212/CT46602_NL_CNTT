@@ -4,16 +4,15 @@ import { useState, useEffect } from 'react';
 import SideBar from "../components/SideBar/SideBar";
 import { useGlobalState } from "../context/globalProvider";
 import NotFound from "../not-found";
-import NextTopLoader from 'nextjs-toploader';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const { isAdmin } = useGlobalState();
-    const [loading, setLoading] = useState(true); // Thêm state để kiểm soát quá trình tải dữ liệu
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 1500);
+        }, 3000);
 
         return () => clearTimeout(timer);
     }, [isAdmin]);
