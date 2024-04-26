@@ -3,6 +3,7 @@
 import React from 'react';
 import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
+import Image from 'next/image';
 
 const backgrounds = [
   "/img/bg1.jpg",
@@ -61,12 +62,13 @@ function Slider() {
           className="fader__slide absolute top-0 left-0"
           style={{ opacity: opacities[index] }}
         >
-          <img
+          <Image
             width={1600}
             height={1600}
             src={background}
             className="w-full"
             alt={`background${index + 1}`}
+            priority={true}
           />
         </div>
       ))}

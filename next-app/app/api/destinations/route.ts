@@ -89,7 +89,19 @@ export async function GET(req: Request) {
             where: {},
         });
 
-        return NextResponse.json({ destinations, asia, random, total, page, limit, status: 200 });
+        const searching = await prisma.destinations.findMany({
+            where: {
+                OR: [
+                    { name: { contains: search, mode: 'insensitive' } },
+                    { continent: { contains: search, mode: 'insensitive' } },
+                    { country: { contains: search, mode: 'insensitive' } },
+                    { city: { contains: search, mode: 'insensitive' } },
+                ],
+            },
+
+        });
+
+        return NextResponse.json({ destinations, asia, random, searching, total, page, limit, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy địa điểm: ", error);
         return NextResponse.json({ error: "Lỗi lấy địa điểm", status: 500 });

@@ -12,3 +12,4 @@ export const arrowRight = <i className="fa-solid fa-arrow-right"></i>;
 export const arrowLeft = <i className="fa-solid fa-arrow-left"></i>;
 export const people = <i className="fa-solid fa-universal-access"></i>;
 export const star = <i className="fa-solid fa-star"></i>;
+export const poll = <i className="fa-solid fa-square-poll-vertical"></i>

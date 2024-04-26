@@ -18,7 +18,7 @@ interface Destinations {
 }
 
 
-function HomePage() {
+function DestinationsPage() {
     const { Asiadestinations, Randomdestinations, isLoading } = useGlobalState();
     const [loaded, setLoaded] = useState(false);
     const ksOptions: KeenSliderOptions = {
@@ -124,7 +124,7 @@ function HomePage() {
                         alt={'landscape'} />
                 </div>
                 {!isLoading ? (
-                    <div ref={sliderRef} className="keen-slider mt-8">
+                    <div ref={sliderRef} className="keen-slider mt-8 flex flex-row relative overflow-hidden">
                         {Asiadestinations.map((asia: Destinations, index: number) => (
                             <div key={index} className={`keen-slider__slide number-slide${index + 1}`}>
                                 <Carousel
@@ -155,7 +155,7 @@ function HomePage() {
                         )}
                     </div>
                 ) : (
-                    <div ref={sliderRef} className="keen-slider mt-8">
+                    <div ref={sliderRef} className="keen-slider mt-8 flex flex-row relative overflow-hidden">
                         <div className='keen-slider__slide number-slide1 skeleton w-32 h-52'></div>
                         <div className='keen-slider__slide number-slide2 skeleton w-32 h-52'></div>
                         <div className='keen-slider__slide number-slide3 skeleton w-32 h-52'></div>
@@ -200,94 +200,8 @@ function HomePage() {
                     </div>
                 )}
             </div>
-
-            <div ref={ref3} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
-                <div ref={textRefs.current[2]} className='flex flex-row items-start opacity-0'>
-                    <div className=' w-3/5'>
-                        <div className='flex flex-row items-center'>
-                            <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{people}</span>
-                            <h1 className='text-3xl font-bold text-start text-sky-400'>
-                                Về chúng tôi
-                            </h1>
-                        </div>
-                        <p className='mt-5 pr-20 text-justify'>
-                            Chúng tôi là một cộng đồng đam mê du lịch, cam kết nâng suất và phát triển bản thân thông qua việc khám phá thế giới. Với tinh thần đoàn kết, chúng tôi tạo nên một môi trường chia sẻ và hỗ trợ, thu hút thành viên từ khắp nơi trên thế giới. Bằng cách kết nối những người yêu thích du lịch, chúng tôi không chỉ mang lại trải nghiệm tuyệt vời mà còn tạo ra cơ hội học hỏi và giao lưu. Với mục tiêu khám phá và trải nghiệm những điểm đến mới, chúng tôi không ngừng mở rộng và phát triển cộng đồng của mình. Hãy cùng tham gia vào chúng tôi để khám phá thế giới và tạo ra những kỷ niệm đáng nhớ cùng nhau.
-                        </p>
-                    </div>
-                    <div className='grid grid-cols-2 gap-2'>
-                        <div className='flex flex-row items-center'>
-                            <Image
-                                width={100}
-                                height={100}
-                                src={'/home/productivity.png'}
-                                alt={'landscape'} />
-                            <p className='ml-8 text-xl text-sky-500 font-extrabold'>NÂNG SUẤT</p>
-                        </div>
-                        <div className='flex flex-row items-center'>
-                            <Image
-                                width={100}
-                                height={100}
-                                src={'/home/development.png'}
-                                alt={'landscape'} />
-                            <p className='ml-8 text-xl text-sky-500 font-extrabold'>PHÁT TRIỂN</p>
-                        </div>
-                        <div className='flex flex-row items-center mt-5'>
-                            <Image
-                                width={100}
-                                height={100}
-                                src={'/home/teamwork.png'}
-                                alt={'landscape'} />
-                            <p className='ml-8 text-xl text-sky-500 font-extrabold'>ĐOÀN KẾT</p>
-                        </div>
-                        <div className='flex flex-row items-center mt-5'>
-                            <Image
-                                width={100}
-                                height={100}
-                                src={'/home/around-the-world.png'}
-                                alt={'landscape'} />
-                            <p className='ml-8 text-xl text-sky-500 font-extrabold'>KHẮP THẾ GIỚI</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div ref={ref4} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
-                <div ref={textRefs.current[3]} className='opacity-0'>
-                    <div className='flex flex-row items-start'>
-                        <div className=' w-3/5'>
-                            <div className='flex flex-row items-center'>
-                                <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{star}</span>
-                                <h1 className='text-3xl font-bold text-start text-sky-400'>
-                                    Quyền lợi khi tham gia
-                                </h1>
-                            </div>
-                            <p className='mt-5 pr-20 text-justify'>
-                                Khám phá những quyền lợi đặc biệt khi tham gia cùng chúng tôi, từ ưu đãi đặc biệt đến trải nghiệm du lịch độc đáo và sự hỗ trợ toàn diện.
-                            </p>
-                        </div>
-                    </div>
-                    <ul className='flex flex-row justify-between mt-10'>
-                        <li className='flex flex-col items-center'>
-                            <Image width={800} height={800} src={'/home/places.png'} alt={'places'} className='w-28 drop-shadow-md' />
-                            <p className='mt-5 text-xl text-gray-500'>Giải pháp du lịch hoàn thiện</p>
-                        </li>
-                        <li className='flex flex-col items-center'>
-                            <Image width={800} height={800} src={'/home/price.png'} alt={'price'} className='w-28 drop-shadow-md' />
-                            <p className='mt-5 text-xl text-gray-500'>Giá rẻ mỗi ngày</p>
-                        </li>
-                        <li className='flex flex-col items-center'>
-                            <Image width={800} height={800} src={'/home/transaction.png'} alt={'transaction'} className='w-28 drop-shadow-md' />
-                            <p className='mt-5 text-xl text-gray-500'>Thanh toán an toàn và linh hoạt</p>
-                        </li>
-                        <li className='flex flex-col items-center'>
-                            <Image width={800} height={800} src={'/home/customer-service.png'} alt={'customer-service'} className='w-28 drop-shadow-md' />
-                            <p className='mt-5 text-xl text-gray-500'>Hỗ trợ khách hàng 24/7</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div >
     )
 }
 
-export default HomePage
+export default DestinationsPage

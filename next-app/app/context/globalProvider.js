@@ -35,6 +35,7 @@ export const GlobalProvider = ({ children }) => {
     const [destinations, setDestinations] = useState([]);
     const [Asiadestinations, setAsiaDestinations] = useState([]);
     const [Randomdestinations, setRandomDestinations] = useState([]);
+    const [Searchdestinations, setSearchDestinations] = useState([]);
     const [users, setUsers] = useState([]);
     const [blogs, setBlogs] = useState([]);
     const [currentPageDest, setCurrentPageDest] = useState(1);
@@ -43,6 +44,7 @@ export const GlobalProvider = ({ children }) => {
     const [totalPagesDest, setTotalPagesDest] = useState(0);
     const [totalPagesUser, setTotalPagesUser] = useState(0);
     const [totalPagesBlog, setTotalPagesBlog] = useState(0);
+    const [searchTerm, setSearchTerm] = useState('');
     const [searchTermDest, setSearchTermDest] = useState('');
     const [searchTermUser, setSearchTermUser] = useState('');
     const [searchTermBlog, setSearchTermBlog] = useState('');
@@ -90,6 +92,15 @@ export const GlobalProvider = ({ children }) => {
             const res = await axios.get(`/api/destinations`);
             setRandomDestinations(res.data.random || []);
             setIsLoading(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const searchDest = async (search = searchTerm) => {
+        try {
+            const res = await axios.get(`/api/destinations?search=${search}`);
+            setSearchDestinations(res.data.searching || []);
         } catch (err) {
             console.log(err);
         }
@@ -164,6 +175,12 @@ export const GlobalProvider = ({ children }) => {
         randomDest();
     }, []);
 
+
+    React.useEffect(() => {
+        searchDest
+    }, [searchTerm]);
+
+
     React.useEffect(() => {
         allDests();
     }, [currentPageDest, searchTermDest]);
@@ -183,6 +200,7 @@ export const GlobalProvider = ({ children }) => {
             destinations,
             Asiadestinations,
             Randomdestinations,
+            Searchdestinations,
             users,
             blogs,
             currentPageDest,
@@ -191,6 +209,7 @@ export const GlobalProvider = ({ children }) => {
             totalPagesDest,
             totalPagesUser,
             totalPagesBlog,
+            setSearchTerm,
             setSearchTermDest,
             setSearchTermUser,
             setSearchTermBlog,
@@ -206,7 +225,7 @@ export const GlobalProvider = ({ children }) => {
             closeModal,
             isAdmin,
         }}>
-            <GlobalUpdateContext.Provider value={{ allDests, allUsers, allBlogs, }}>
+            <GlobalUpdateContext.Provider value={{ allDests, allUsers, allBlogs, searchDest, }}>
                 {children}
             </GlobalUpdateContext.Provider>
         </GlobalContext.Provider>
