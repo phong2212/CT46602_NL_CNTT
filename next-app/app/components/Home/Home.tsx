@@ -3,10 +3,11 @@
 
 import { useGlobalState } from '@/app/context/globalProvider';
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Carousel from '../Carousel/Carousel';
-import { useKeenSlider } from "keen-slider/react"
-import "keen-slider/keen-slider.min.css"
+import { KeenSliderOptions, useKeenSlider } from "keen-slider/react"
+import { useInView } from 'react-intersection-observer';
+import anime from "animejs/lib/anime.es.js";
 import { arrowLeft, arrowRight, plane, people, star } from '@/app/utils/Icons';
 import Link from 'next/link';
 
@@ -16,10 +17,11 @@ interface Destinations {
     imageURL: string;
 }
 
+
 function HomePage() {
     const { Asiadestinations, Randomdestinations, isLoading } = useGlobalState();
     const [loaded, setLoaded] = useState(false);
-    const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
+    const ksOptions: KeenSliderOptions = {
         initial: 0,
         loop: true,
         mode: "free-snap",
@@ -30,17 +32,85 @@ function HomePage() {
         created() {
             setLoaded(true);
         },
+    }
+    const [sliderRef, instanceRef] = useKeenSlider(ksOptions);
+
+    useEffect(() => {
+        instanceRef.current?.update(ksOptions);
+    }, [Asiadestinations]);
+
+    const textRefs = useRef(Array.from({ length: 4 }).map(() => useRef(null)));
+    const [triggered, setTriggered] = useState(Array.from({ length: 4 }).fill(false));
+
+    const animateText = (index: any) => {
+        anime({
+            targets: textRefs.current[index].current,
+            translateY: [100, 0],
+            opacity: [0, 1],
+            easing: "easeOutExpo",
+            duration: 1200,
+            delay: 200
+        });
+    };
+
+    const [ref1, inView1] = useInView({
+        triggerOnce: true,
+        threshold: 0.3
     });
+
+    const [ref2, inView2] = useInView({
+        triggerOnce: true,
+        threshold: 0.3
+    });
+
+    const [ref3, inView3] = useInView({
+        triggerOnce: true,
+        threshold: 0.3
+    });
+
+    const [ref4, inView4] = useInView({
+        triggerOnce: true,
+        threshold: 0.3
+    });
+
+    useEffect(() => {
+        if (inView1 && !triggered[0]) {
+            animateText(0);
+            setTriggered((prev) => [...prev.slice(0, 0), true, ...prev.slice(0)]);
+        }
+    }, [inView1, triggered]);
+
+    useEffect(() => {
+        if (inView2 && !triggered[1]) {
+            animateText(1);
+            setTriggered((prev) => [...prev.slice(0, 1), true, ...prev.slice(1)]);
+        }
+    }, [inView2, triggered]);
+
+    useEffect(() => {
+        if (inView3 && !triggered[2]) {
+            animateText(2);
+            setTriggered((prev) => [...prev.slice(0, 2), true]);
+        }
+    }, [inView3, triggered]);
+
+    useEffect(() => {
+        if (inView4 && !triggered[3]) {
+            animateText(3);
+            setTriggered((prev) => [...prev.slice(0, 3), true]);
+        }
+    }, [inView4, triggered]);
+
     return (
         <div className='h-full caret-transparent'>
 
-            <div className='bg-base-200 px-16 py-12 m-16 rounded-badge drop-shadow-lg'>
-                <div className='flex flex-row justify-between items-center'>
+            <div ref={ref1} className='bg-base-200 px-16 py-12 m-16 rounded-badge drop-shadow-lg'>
+                <div ref={textRefs.current[0]} className='flex flex-row justify-between items-center opacity-0'>
                     <div>
                         <div className='flex flex-row items-center'>
                             <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{plane}</span>
                             <h1 className='text-3xl font-bold text-start text-sky-400'>
-                                Khám phá địa điểm nổi bật tại châu Á
+                                Khám phá các địa điểm nổi bật tại châu Á
                             </h1>
                         </div>
                         <p className='mt-5 pr-20 text-justify'>
@@ -69,14 +139,14 @@ function HomePage() {
                             <>
                                 <button
                                     onClick={(e: any) =>
-                                        e.stopPropagation() || instanceRef.current?.prev()
+                                        instanceRef.current?.prev()
                                     }
                                     className='join-item btn btn-base-200 absolute top-[5.2rem] z-10 left-2'>
                                     {arrowLeft}
                                 </button>
                                 <button
                                     onClick={(e: any) =>
-                                        e.stopPropagation() || instanceRef.current?.next()
+                                        instanceRef.current?.next()
                                     }
                                     className='join-item btn btn-base-200 absolute top-[5.2rem] z-10 right-2'>
                                     {arrowRight}
@@ -85,17 +155,18 @@ function HomePage() {
                         )}
                     </div>
                 ) : (
-                    <div>
-                        <div className='flex flex-row justify-center items-center h-[18.75rem]'>
-                            <span className="loading loading-spinner loading-lg"></span>
-                        </div>
+                    <div ref={sliderRef} className="keen-slider mt-8">
+                        <div className='keen-slider__slide number-slide1 skeleton w-32 h-52'></div>
+                        <div className='keen-slider__slide number-slide2 skeleton w-32 h-52'></div>
+                        <div className='keen-slider__slide number-slide3 skeleton w-32 h-52'></div>
+                        <div className='keen-slider__slide number-slide4 skeleton w-32 h-52'></div>
                     </div>
                 )}
             </div>
 
-            <div className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
+            <div ref={ref2} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
                 <div className='flex flex-row justify-between items-center'>
-                    <div className=' w-2/3'>
+                    <div ref={textRefs.current[1]} className=' w-2/3 opacity-0'>
                         <div className='flex flex-row items-center'>
                             <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{plane}</span>
                             <h1 className='text-3xl font-bold text-start text-sky-400'>
@@ -107,20 +178,31 @@ function HomePage() {
                         </p>
                     </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4 mt-8">
-                    {Randomdestinations.map((random: Destinations) => (
-                        <Link href={'/'} key={random.id} className="relative hover:bg-black duration-300 hover:rounded-lg">
-                            <img src={random.imageURL} alt={random.name} className="w-full h-52 object-cover rounded-lg transition  hover:opacity-70" />
-                            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white px-4 py-2 rounded-b-lg">
-                                <p className="text-xl font-semibold">{random.name}</p>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+                {!isLoading ? (
+                    < div className="grid grid-cols-3 gap-4 mt-8">
+                        {Randomdestinations.map((random: Destinations) => (
+                            <Link href={'/'} key={random.id} className="relative hover:bg-black duration-300 hover:rounded-lg">
+                                <img src={random.imageURL} alt={random.name} className="w-full h-52 object-cover rounded-lg transition  hover:opacity-70" />
+                                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white px-4 py-2 rounded-b-lg">
+                                    <p className="text-xl font-semibold">{random.name}</p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                ) : (
+                    < div className="grid grid-cols-3 gap-4 mt-8">
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                    </div>
+                )}
             </div>
 
-            <div className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
-                <div className='flex flex-row items-start'>
+            <div ref={ref3} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
+                <div ref={textRefs.current[2]} className='flex flex-row items-start opacity-0'>
                     <div className=' w-3/5'>
                         <div className='flex flex-row items-center'>
                             <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{people}</span>
@@ -164,7 +246,6 @@ function HomePage() {
                                 src={'/home/around-the-world.png'}
                                 alt={'landscape'} />
                             <p className='ml-8 text-xl text-sky-500 font-extrabold'>KHẮP THẾ GIỚI</p>
-
                         </div>
                     </div>
                 </div>
@@ -173,40 +254,42 @@ function HomePage() {
                 </div>
             </div>
 
-            <div className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
-                <div className='flex flex-row items-start'>
-                    <div className=' w-3/5'>
-                        <div className='flex flex-row items-center'>
-                            <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{star}</span>
-                            <h1 className='text-3xl font-bold text-start text-sky-400'>
-                                Quyền lợi khi tham gia
-                            </h1>
+            <div ref={ref4} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
+                <div ref={textRefs.current[3]} className='opacity-0'>
+                    <div className='flex flex-row items-start'>
+                        <div className=' w-3/5'>
+                            <div className='flex flex-row items-center'>
+                                <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{star}</span>
+                                <h1 className='text-3xl font-bold text-start text-sky-400'>
+                                    Quyền lợi khi tham gia
+                                </h1>
+                            </div>
+                            <p className='mt-5 pr-20 text-justify'>
+                                Khám phá những quyền lợi đặc biệt khi tham gia cùng chúng tôi, từ ưu đãi đặc biệt đến trải nghiệm du lịch độc đáo và sự hỗ trợ toàn diện.
+                            </p>
                         </div>
-                        <p className='mt-5 pr-20 text-justify'>
-                            Khám phá những quyền lợi đặc biệt khi tham gia cùng chúng tôi, từ ưu đãi đặc biệt đến trải nghiệm du lịch độc đáo và sự hỗ trợ toàn diện.
-                        </p>
                     </div>
+                    <ul className='flex flex-row justify-between mt-10'>
+                        <li className='flex flex-col items-center'>
+                            <Image width={800} height={800} src={'/home/places.png'} alt={'places'} className='w-28 drop-shadow-md' />
+                            <p className='mt-5 text-xl text-gray-500'>Giải pháp du lịch hoàn thiện</p>
+                        </li>
+                        <li className='flex flex-col items-center'>
+                            <Image width={800} height={800} src={'/home/price.png'} alt={'price'} className='w-28 drop-shadow-md' />
+                            <p className='mt-5 text-xl text-gray-500'>Giá rẻ mỗi ngày</p>
+                        </li>
+                        <li className='flex flex-col items-center'>
+                            <Image width={800} height={800} src={'/home/transaction.png'} alt={'transaction'} className='w-28 drop-shadow-md' />
+                            <p className='mt-5 text-xl text-gray-500'>Thanh toán an toàn và linh hoạt</p>
+                        </li>
+                        <li className='flex flex-col items-center'>
+                            <Image width={800} height={800} src={'/home/customer-service.png'} alt={'customer-service'} className='w-28 drop-shadow-md' />
+                            <p className='mt-5 text-xl text-gray-500'>Hỗ trợ khách hàng 24/7</p>
+                        </li>
+                    </ul>
                 </div>
-                <ul className='flex flex-row justify-between mt-10'>
-                    <li className='flex flex-col items-center'>
-                        <Image width={800} height={800} src={'/home/places.png'} alt={'places'} className='w-28 drop-shadow-md' />
-                        <p className='mt-5 text-xl text-gray-500'>Giải pháp du lịch hoàn thiện</p>
-                    </li>
-                    <li className='flex flex-col items-center'>
-                        <Image width={800} height={800} src={'/home/price.png'} alt={'price'} className='w-28 drop-shadow-md' />
-                        <p className='mt-5 text-xl text-gray-500'>Giá rẻ mỗi ngày</p>
-                    </li>
-                    <li className='flex flex-col items-center'>
-                        <Image width={800} height={800} src={'/home/transaction.png'} alt={'transaction'} className='w-28 drop-shadow-md' />
-                        <p className='mt-5 text-xl text-gray-500'>Thanh toán an toàn và linh hoạt</p>
-                    </li>
-                    <li className='flex flex-col items-center'>
-                        <Image width={800} height={800} src={'/home/customer-service.png'} alt={'customer-service'} className='w-28 drop-shadow-md' />
-                        <p className='mt-5 text-xl text-gray-500'>Hỗ trợ khách hàng 24/7</p>
-                    </li>
-                </ul>
             </div>
-        </div>
+        </div >
     )
 }
 

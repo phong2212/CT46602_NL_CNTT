@@ -16,10 +16,12 @@ export const GlobalProvider = ({ children }) => {
 
     React.useEffect(() => {
         const fetchAdminStatus = async () => {
+            setIsLoading(false);
             if (user) {
                 try {
                     const res = await axios.get(`/api/webhooks/clerk`);
                     setIsAdmin(res.data.admin.some(admin => admin.clerkId === user.id));
+                    setIsLoading(true);
                 } catch (error) {
                     console.error(error);
                 }
