@@ -6,6 +6,7 @@ import Image from 'next/image'
 import React, { useState, useRef } from 'react'
 import Carousel from '../Carousel/Carousel';
 import { KeenSliderOptions, useKeenSlider } from "keen-slider/react"
+import 'keen-slider/keen-slider.min.css'
 import { useInView } from 'react-intersection-observer';
 import anime from "animejs/lib/anime.es.js";
 import { arrowLeft, arrowRight, plane, people, star } from '@/app/utils/Icons';
@@ -19,7 +20,7 @@ interface Destinations {
 
 
 function DestinationsPage() {
-    const { Asiadestinations, Randomdestinations, isLoading } = useGlobalState();
+    const { Eurodestinations, Randomdestinations, isLoadingEuro, isLoadingRandom } = useGlobalState();
     const [loaded, setLoaded] = useState(false);
     const ksOptions: KeenSliderOptions = {
         initial: 0,
@@ -37,7 +38,7 @@ function DestinationsPage() {
 
     React.useEffect(() => {
         instanceRef.current?.update(ksOptions);
-    }, [Asiadestinations]);
+    }, [Eurodestinations]);
 
     const textRefs = useRef(Array.from({ length: 4 }).map(() => useRef(null)));
     const [triggered, setTriggered] = useState(Array.from({ length: 4 }).fill(false));
@@ -110,28 +111,35 @@ function DestinationsPage() {
                         <div className='flex flex-row items-center'>
                             <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{plane}</span>
                             <h1 className='text-3xl font-bold text-start text-sky-400'>
-                                Khám phá các địa điểm nổi bật tại châu Á
+                                Khám phá các địa điểm nổi bật tại châu Âu
                             </h1>
                         </div>
                         <p className='mt-5 pr-20 text-justify'>
-                            Trải nghiệm hấp dẫn tại các điểm đến đặc sắc ở châu Á, khám phá văn hóa, phong cảnh và ẩm thực độc đáo trên toàn lục địa này.
+                            Trải nghiệm hấp dẫn tại các điểm đến đặc sắc ở châu Âu, khám phá văn hóa, phong cảnh và ẩm thực độc đáo trên toàn lục địa này.
                         </p>
                     </div>
                     <Image
                         width={500}
                         height={100}
-                        src={'/home/landscape.png'}
-                        alt={'landscape'} />
+                        src={'/home/landscape2.png'}
+                        alt={'landscape2'} />
                 </div>
-                {!isLoading ? (
-                    <div ref={sliderRef} className="keen-slider mt-8 flex flex-row relative overflow-hidden">
-                        {Asiadestinations.map((asia: Destinations, index: number) => (
+                {isLoadingEuro ? (
+                    <div ref={sliderRef} className="keen-slider mt-8">
+                        <div className='keen-slider__slide number-slide1 skeleton w-32 h-52'></div>
+                        <div className='keen-slider__slide number-slide2 skeleton w-32 h-52 ml-5'></div>
+                        <div className='keen-slider__slide number-slide3 skeleton w-32 h-52 ml-5'></div>
+                        <div className='keen-slider__slide number-slide4 skeleton w-32 h-52 ml-5'></div>
+                    </div>
+                ) : (
+                    <div ref={sliderRef} className="keen-slider mt-8">
+                        {Eurodestinations.map((euro: Destinations, index: number) => (
                             <div key={index} className={`keen-slider__slide number-slide${index + 1}`}>
                                 <Carousel
-                                    key={asia.id}
-                                    id={asia.id}
-                                    name={asia.name}
-                                    imageURL={asia.imageURL}
+                                    key={euro.id}
+                                    id={euro.id}
+                                    name={euro.name}
+                                    imageURL={euro.imageURL}
                                 />
                             </div>
                         ))}
@@ -154,13 +162,6 @@ function DestinationsPage() {
                             </>
                         )}
                     </div>
-                ) : (
-                    <div ref={sliderRef} className="keen-slider mt-8 flex flex-row relative overflow-hidden">
-                        <div className='keen-slider__slide number-slide1 skeleton w-32 h-52'></div>
-                        <div className='keen-slider__slide number-slide2 skeleton w-32 h-52'></div>
-                        <div className='keen-slider__slide number-slide3 skeleton w-32 h-52'></div>
-                        <div className='keen-slider__slide number-slide4 skeleton w-32 h-52'></div>
-                    </div>
                 )}
             </div>
 
@@ -178,7 +179,16 @@ function DestinationsPage() {
                         </p>
                     </div>
                 </div>
-                {!isLoading ? (
+                {isLoadingRandom ? (
+                    < div className="grid grid-cols-3 gap-4 mt-8">
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                    </div>
+                ) : (
                     < div className="grid grid-cols-3 gap-4 mt-8">
                         {Randomdestinations.map((random: Destinations) => (
                             <Link href={'/'} key={random.id} className="relative hover:bg-black duration-300 hover:rounded-lg">
@@ -188,15 +198,6 @@ function DestinationsPage() {
                                 </div>
                             </Link>
                         ))}
-                    </div>
-                ) : (
-                    < div className="grid grid-cols-3 gap-4 mt-8">
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
                     </div>
                 )}
             </div>

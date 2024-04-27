@@ -34,6 +34,13 @@ const destinations = () => {
         setSubmitted(true);
     };
 
+    const handleButtonClick = (buttonText: string) => {
+        setSearchTerm(buttonText);
+        searchDest(buttonText);
+        setSubmitted(true);
+    };
+
+
     const textRef = React.useRef(null);
 
 
@@ -61,10 +68,10 @@ const destinations = () => {
                     priority={true}
                 />
                 <div className='absolute inset-0 bg-black opacity-20 w-full h-full'></div>
-                <div ref={textRef} className="absolute inset-0 flex flex-col items-center justify-center mt-10">
+                <div ref={textRef} className="absolute inset-0 flex flex-col items-center justify-center mt-20">
                     <p className="text-white text-3xl font-bold">Tìm kiếm địa điểm</p>
                     <form onSubmit={handleSearchSubmit}>
-                        <label className="input input-bordered flex items-center gap-2 caret-black mt-10 w-96">
+                        <label className="input input-bordered flex items-center gap-2 caret-black mt-10 w-full">
                             <input
                                 type="text"
                                 value={searchTerm}
@@ -76,6 +83,14 @@ const destinations = () => {
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path fillRule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clipRule="evenodd" /></svg>
                             </button>
                         </label>
+                        <div className='flex flex-row justify-between items-center mt-10'>
+                            <span className='text-white text-2xl font-bold'>Gợi ý:</span>
+                            <button onClick={() => handleButtonClick('Châu Á')} className='btn btn-primary text-lg text-white font-bold ml-5'>Châu Á</button>
+                            <button onClick={() => handleButtonClick('Châu Phi')} className='btn btn-primary text-lg text-white font-bold ml-5'>Châu Phi</button>
+                            <button onClick={() => handleButtonClick('Châu Mỹ')} className='btn btn-primary text-lg text-white font-bold ml-5'>Châu Mỹ</button>
+                            <button onClick={() => handleButtonClick('Châu Đại Dương')} className='btn btn-primary text-lg text-white font-bold ml-5'>Châu Đại Dương</button>
+                            <button onClick={() => handleButtonClick('Việt Nam')} className='btn btn-primary text-lg text-white font-bold ml-5'>Việt Nam</button>
+                        </div>
                     </form>
                 </div>
             </div>

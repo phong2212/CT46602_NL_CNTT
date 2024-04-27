@@ -31,17 +31,16 @@ interface Users {
 }
 
 function Blog({ title }: Props) {
-    const { blogs, users, currentPageBlog, totalPagesBlog, setCurrentPageBlog, isLoading } = useGlobalState();
+    const { blogs, users, searchTermBlog, setSearchTermBlog, currentPageBlog, totalPagesBlog, setCurrentPageBlog, isLoading } = useGlobalState();
     const { allBlogs } = useGlobalUpdate();
-    const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearchChange = (e: any) => {
-        setSearchTerm(e.target.value);
+        setSearchTermBlog(e.target.value);
     };
 
     const handleSearchSubmit = (e: any) => {
         e.preventDefault();
-        allBlogs(1, searchTerm);
+        allBlogs(1, searchTermBlog);
     };
 
     const goToNextPage = () => {
@@ -64,7 +63,7 @@ function Blog({ title }: Props) {
                     <div className='form-control flex flex-row'>
                         <input
                             type="text"
-                            value={searchTerm}
+                            value={searchTermBlog}
                             className='input input-bordered w-24 md:w-auto'
                             onChange={handleSearchChange}
                             placeholder="Tìm kiếm..."

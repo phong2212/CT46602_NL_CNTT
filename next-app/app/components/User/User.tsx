@@ -20,17 +20,17 @@ interface Users {
 }
 
 function User({ title }: Props) {
-    const { users, currentPageUser, totalPagesUser, setCurrentPageUser, isLoading } = useGlobalState();
+    const { users, currentPageUser, searchTermUser, setSearchTermUser, totalPagesUser, setCurrentPageUser, isLoading } = useGlobalState();
     const { allUsers } = useGlobalUpdate();
-    const [searchTerm, setSearchTerm] = useState('');
+
 
     const handleSearchChange = (e: any) => {
-        setSearchTerm(e.target.value);
+        setSearchTermUser(e.target.value);
     };
 
     const handleSearchSubmit = (e: any) => {
         e.preventDefault();
-        allUsers(1, searchTerm);
+        allUsers(1, searchTermUser);
     };
 
     const goToNextPage = () => {
@@ -53,7 +53,7 @@ function User({ title }: Props) {
                     <div className='form-control flex flex-row'>
                         <input
                             type="text"
-                            value={searchTerm}
+                            value={searchTermUser}
                             className='input input-bordered w-24 md:w-auto'
                             onChange={handleSearchChange}
                             placeholder="Tìm kiếm..."

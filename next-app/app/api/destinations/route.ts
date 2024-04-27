@@ -73,6 +73,15 @@ export async function GET(req: Request) {
             },
         });
 
+        const euro = await prisma.destinations.findMany({
+            orderBy: {
+                id: 'desc',
+            },
+            where: {
+                continent: 'Châu Âu',
+            },
+        });
+
         const total = await prisma.destinations.count({
             where: {
                 OR: [
@@ -101,7 +110,7 @@ export async function GET(req: Request) {
 
         });
 
-        return NextResponse.json({ destinations, asia, random, searching, total, page, limit, status: 200 });
+        return NextResponse.json({ destinations, asia, euro, random, searching, total, page, limit, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy địa điểm: ", error);
         return NextResponse.json({ error: "Lỗi lấy địa điểm", status: 500 });

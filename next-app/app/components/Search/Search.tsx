@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useGlobalState } from '@/app/context/globalProvider';
-import Image from 'next/image';
+import 'keen-slider/keen-slider.min.css'
 import Carousel from '../Carousel/Carousel';
 import { KeenSliderOptions, useKeenSlider } from 'keen-slider/react';
 import { arrowLeft, arrowRight, poll } from '@/app/utils/Icons';
@@ -12,11 +12,12 @@ interface Destinations {
 }
 
 function Search() {
-    const { Searchdestinations, isLoading } = useGlobalState();
+    const { Searchdestinations, isLoadingSearch } = useGlobalState();
     const [loaded, setLoaded] = useState(false);
     const [noResults, setNoResults] = useState(false);
     const ksOptions: KeenSliderOptions = {
         initial: 0,
+        loop: true,
         mode: 'free-snap',
         slides: {
             perView: 4,
@@ -31,12 +32,12 @@ function Search() {
 
     useEffect(() => {
         instanceRef.current?.update(ksOptions);
-        if (Searchdestinations.length === 0 && !isLoading) {
+        if (Searchdestinations.length === 0 && !isLoadingSearch) {
             setNoResults(true);
         } else {
             setNoResults(false);
         }
-    }, [Searchdestinations, isLoading]);
+    }, [Searchdestinations, isLoadingSearch]);
 
     return (
         <div className='bg-base-200 px-16 py-12 m-16 rounded-badge drop-shadow-lg'>
@@ -51,7 +52,14 @@ function Search() {
                 </div>
             </div>
             {noResults ? (
-                <p className="text-red-500 text-2xl mt-8">Không tìm thấy từ khóa!</p>
+                <p className="text-red-500 text-2xl mt-8">Không tìm thấy địa điểm!</p>
+            ) : isLoadingSearch ? (
+                <div ref={sliderRef} className="keen-slider mt-8">
+                    <div className='keen-slider__slide number-slide1 skeleton w-32 h-52'></div>
+                    <div className='keen-slider__slide number-slide2 skeleton w-32 h-52 ml-5'></div>
+                    <div className='keen-slider__slide number-slide3 skeleton w-32 h-52 ml-5'></div>
+                    <div className='keen-slider__slide number-slide4 skeleton w-32 h-52 ml-5'></div>
+                </div>
             ) : (
                 <div ref={sliderRef} className='keen-slider mt-8 flex flex-row relative overflow-hidden'>
                     {Searchdestinations.map((search: Destinations, index: number) => (
@@ -79,8 +87,8 @@ function Search() {
                         </>
                     )}
                 </div>
-
-            )}
+            )
+            }
         </div>
     );
 }

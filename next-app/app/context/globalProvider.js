@@ -32,8 +32,13 @@ export const GlobalProvider = ({ children }) => {
     }, [user]);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingAsia, setIsLoadingAsia] = useState(false);
+    const [isLoadingEuro, setIsLoadingEuro] = useState(false);
+    const [isLoadingRandom, setIsLoadingRandom] = useState(false);
+    const [isLoadingSearch, setIsLoadingSearch] = useState(false);
     const [destinations, setDestinations] = useState([]);
     const [Asiadestinations, setAsiaDestinations] = useState([]);
+    const [Eurodestinations, setEuroDestinations] = useState([]);
     const [Randomdestinations, setRandomDestinations] = useState([]);
     const [Searchdestinations, setSearchDestinations] = useState([]);
     const [users, setUsers] = useState([]);
@@ -44,7 +49,6 @@ export const GlobalProvider = ({ children }) => {
     const [totalPagesDest, setTotalPagesDest] = useState(0);
     const [totalPagesUser, setTotalPagesUser] = useState(0);
     const [totalPagesBlog, setTotalPagesBlog] = useState(0);
-    const [searchTerm, setSearchTerm] = useState('');
     const [searchTermDest, setSearchTermDest] = useState('');
     const [searchTermUser, setSearchTermUser] = useState('');
     const [searchTermBlog, setSearchTermBlog] = useState('');
@@ -76,31 +80,44 @@ export const GlobalProvider = ({ children }) => {
     };
 
     const allAsia = async () => {
-        setIsLoading(true);
+        setIsLoadingAsia(true);
         try {
             const res = await axios.get(`/api/destinations`);
             setAsiaDestinations(res.data.asia || []);
-            setIsLoading(false);
+            setIsLoadingAsia(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const allEuro = async () => {
+        setIsLoadingEuro(true);
+        try {
+            const res = await axios.get(`/api/destinations`);
+            setEuroDestinations(res.data.euro || []);
+            setIsLoadingEuro(false);
         } catch (err) {
             console.log(err);
         }
     };
 
     const randomDest = async () => {
-        setIsLoading(true);
+        setIsLoadingRandom(true);
         try {
             const res = await axios.get(`/api/destinations`);
             setRandomDestinations(res.data.random || []);
-            setIsLoading(false);
+            setIsLoadingRandom(false);
         } catch (err) {
             console.log(err);
         }
     };
 
-    const searchDest = async (search = searchTerm) => {
+    const searchDest = async (search) => {
+        setIsLoadingSearch(true);
         try {
             const res = await axios.get(`/api/destinations?search=${search}`);
             setSearchDestinations(res.data.searching || []);
+            setIsLoadingSearch(false);
         } catch (err) {
             console.log(err);
         }
@@ -171,6 +188,7 @@ export const GlobalProvider = ({ children }) => {
     }
 
     React.useEffect(() => {
+        allEuro();
         allAsia();
         randomDest();
     }, []);
@@ -178,7 +196,7 @@ export const GlobalProvider = ({ children }) => {
 
     React.useEffect(() => {
         searchDest
-    }, [searchTerm]);
+    }, []);
 
 
     React.useEffect(() => {
@@ -200,16 +218,17 @@ export const GlobalProvider = ({ children }) => {
             destinations,
             Asiadestinations,
             Randomdestinations,
+            Eurodestinations,
             Searchdestinations,
             users,
             blogs,
+            allDests,
             currentPageDest,
             currentPageUser,
             currentPageBlog,
             totalPagesDest,
             totalPagesUser,
             totalPagesBlog,
-            setSearchTerm,
             setSearchTermDest,
             setSearchTermUser,
             setSearchTermBlog,
@@ -217,6 +236,10 @@ export const GlobalProvider = ({ children }) => {
             setCurrentPageUser,
             setCurrentPageBlog,
             isLoading,
+            isLoadingAsia,
+            isLoadingRandom,
+            isLoadingEuro,
+            isLoadingSearch,
             deleteDest,
             deleteUser,
             deleteBlog,

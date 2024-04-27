@@ -6,6 +6,7 @@ import Image from 'next/image'
 import React, { useState, useRef } from 'react'
 import Carousel from '../Carousel/Carousel';
 import { KeenSliderOptions, useKeenSlider } from "keen-slider/react"
+import 'keen-slider/keen-slider.min.css'
 import { useInView } from 'react-intersection-observer';
 import anime from "animejs/lib/anime.es.js";
 import { arrowLeft, arrowRight, plane, people, star } from '@/app/utils/Icons';
@@ -19,7 +20,7 @@ interface Destinations {
 
 
 function HomePage() {
-    const { Asiadestinations, Randomdestinations, isLoading } = useGlobalState();
+    const { Asiadestinations, Randomdestinations, isLoadingAsia, isLoadingRandom } = useGlobalState();
     const [loaded, setLoaded] = useState(false);
     const ksOptions: KeenSliderOptions = {
         initial: 0,
@@ -123,7 +124,14 @@ function HomePage() {
                         src={'/home/landscape.png'}
                         alt={'landscape'} />
                 </div>
-                {!isLoading ? (
+                {isLoadingAsia ? (
+                    <div ref={sliderRef} className="keen-slider mt-8">
+                        <div className='keen-slider__slide number-slide1 skeleton w-32 h-52 '></div>
+                        <div className='keen-slider__slide number-slide2 skeleton w-32 h-52 ml-5'></div>
+                        <div className='keen-slider__slide number-slide3 skeleton w-32 h-52 ml-5'></div>
+                        <div className='keen-slider__slide number-slide4 skeleton w-32 h-52 ml-5'></div>
+                    </div>
+                ) : (
                     <div ref={sliderRef} className="keen-slider mt-8">
                         {Asiadestinations.map((asia: Destinations, index: number) => (
                             <div key={index} className={`keen-slider__slide number-slide${index + 1}`}>
@@ -154,13 +162,6 @@ function HomePage() {
                             </>
                         )}
                     </div>
-                ) : (
-                    <div ref={sliderRef} className="keen-slider mt-8">
-                        <div className='keen-slider__slide number-slide1 skeleton w-32 h-52'></div>
-                        <div className='keen-slider__slide number-slide2 skeleton w-32 h-52'></div>
-                        <div className='keen-slider__slide number-slide3 skeleton w-32 h-52'></div>
-                        <div className='keen-slider__slide number-slide4 skeleton w-32 h-52'></div>
-                    </div>
                 )}
             </div>
 
@@ -178,7 +179,16 @@ function HomePage() {
                         </p>
                     </div>
                 </div>
-                {!isLoading ? (
+                {isLoadingRandom ? (
+                    < div className="grid grid-cols-3 gap-4 mt-8">
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                        <div className="skeleton w-full h-52"></div>
+                    </div>
+                ) : (
                     < div className="grid grid-cols-3 gap-4 mt-8">
                         {Randomdestinations.map((random: Destinations) => (
                             <Link href={'/'} key={random.id} className="relative hover:bg-black duration-300 hover:rounded-lg">
@@ -188,15 +198,6 @@ function HomePage() {
                                 </div>
                             </Link>
                         ))}
-                    </div>
-                ) : (
-                    < div className="grid grid-cols-3 gap-4 mt-8">
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
-                        <div className="skeleton w-full h-52"></div>
                     </div>
                 )}
             </div>

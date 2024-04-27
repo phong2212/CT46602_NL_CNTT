@@ -2,15 +2,15 @@
 
 import { useGlobalState } from '@/app/context/globalProvider';
 import axios from 'axios';
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 interface Props {
-  destinationId: string;
+    destinationId: string;
 }
 
 function UpdateContent({ destinationId }: Props) {
-    const { closeModal, allDests} = useGlobalState();
+    const { closeModal, allDests } = useGlobalState();
     const [destination, setDestination] = useState({
         name: '',
         description: '',
@@ -48,7 +48,7 @@ function UpdateContent({ destinationId }: Props) {
 
         try {
             const res = await axios.put(`/api/destinations/${destinationId}`, destination);
-    
+
             if (res.data.error) {
                 toast.error(res.data.error);
             } else {
