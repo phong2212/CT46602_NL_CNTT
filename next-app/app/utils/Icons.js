@@ -17,4 +17,6 @@ export const location = <i className="fa-solid fa-location-dot"></i>;
 export const idCard = <i className="fa-solid fa-id-card"></i>;
 export const email = <i className="fa-solid fa-envelope"></i>;
 export const phone = <i className="fa-solid fa-phone"></i>;
-export const address = <i class="fa-solid fa-map-location-dot"></i>;
+export const address = <i className="fa-solid fa-map-location-dot"></i>;
+export const newspaper = <i className="fa-solid fa-newspaper"></i>
+export const pencil = <i className="fa-solid fa-pencil"></i>;

@@ -23,11 +23,8 @@ interface Blogs {
 interface Users {
     id: string;
     clerkId: string;
-    email: string;
-    photo: string;
     firstName: string;
     lastName: string;
-    createdAt: GLfloat;
 }
 
 function Blog({ title }: Props) {

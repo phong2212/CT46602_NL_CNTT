@@ -10,29 +10,29 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Không có quyền truy cập", status: 401 })
         }
 
-        // const { name, description, continent, country, city, imageURL } = await req.json();
+        const authorId = userId;
 
-        // if (!name || !description || !continent || !country || !city || !imageURL) {
-        //     return NextResponse.json({ error: "Vui lòng nhập đầy đủ thông tin", status: 400 })
-        // }
+        const { title, content, imageURL } = await req.json();
 
-        // if (name.length < 3) {
-        //     return NextResponse.json({ error: "Tiêu đề phải dài hơn 3 kí tự", status: 400 })
-        // }
+        if (!title || !content || !imageURL) {
+            return NextResponse.json({ error: "Vui lòng nhập đầy đủ thông tin", status: 400 })
+        }
 
-        // const destinations = await prisma.destinations.create({
-        //     data: {
-        //         name,
-        //         description,
-        //         continent,
-        //         country,
-        //         city,
-        //         imageURL,
-        //     }
-        // });
+        if (title.length < 3) {
+            return NextResponse.json({ error: "Tiêu đề phải dài hơn 3 kí tự", status: 400 })
+        }
+
+        const blogs = await prisma.blogs.create({
+            data: {
+                authorId,
+                title,
+                content,
+                imageURL,
+            }
+        });
 
 
-        return NextResponse.json({ status: 200 });
+        return NextResponse.json({ blogs, status: 200 });
 
     } catch (error) {
         console.log("Lỗi tạo blog: ", error);
@@ -74,7 +74,13 @@ export async function GET(req: Request) {
             },
         });
 
-        return NextResponse.json({ blogs, total, page, limit, status: 200 });
+        const listblogs = await prisma.blogs.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            },
+        });
+
+        return NextResponse.json({ blogs, listblogs, total, page, limit, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy blog: ", error);
         return NextResponse.json({ error: "Lỗi lấy blog", status: 500 });

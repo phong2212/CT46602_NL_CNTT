@@ -73,9 +73,9 @@ const DetailDestPage = ({ params }: { params: { id: string } }) => {
                 <Image
                     width="1980"
                     height="800"
-                    src="/img/bg3.jpg"
+                    src="/img/bg1.jpg"
                     alt="background3"
-                    className="object-none object-bottom h-96 w-full"
+                    className="object-none object-right-center h-96 w-full"
                     priority={true}
                 />
                 <div className='absolute inset-0 bg-black opacity-20 w-full h-full'></div>
@@ -124,11 +124,11 @@ const DetailDestPage = ({ params }: { params: { id: string } }) => {
                                         <h1 className='skeleton h-8 w-52'> </h1>
                                     </div>
                                     <div className="skeleton h-52 w-96 mt-6"></div>
-                                    <p className='mt-5'>
+                                    <div className='mt-5'>
                                         <div className="skeleton h-7 w-52 mt-4"></div>
                                         <div className="skeleton h-7 w-96 mt-4"></div>
                                         <div className="skeleton h-7 w-96 mt-4"></div>
-                                    </p>
+                                    </div>
                                 </div>
                             ) : (
                                 <div>
@@ -164,18 +164,18 @@ const DetailDestPage = ({ params }: { params: { id: string } }) => {
                                         Liên hệ
                                     </h1>
                                 </div>
-                                <div className='flex flex-col mt-6'>
+                                <div className='flex flex-col mt-6 '>
                                     <div className='flex flex-row items-center'>
-                                        <span className='text-lg text-sky-500 text-bold'>{email}</span>
+                                        <span className='text-lg text-bold'>{email}</span>
                                         <p className='ml-5 text-md '> wanderlust@gmail.com</p>
                                     </div >
                                     <div className='flex flex-row items-center mt-2'>
-                                        <span className='text-lg text-sky-500 text-bold'> {phone}</span>
+                                        <span className='text-lg text-bold'> {phone}</span>
                                         <p className='ml-5 text-md '>+84 999999999</p>
                                     </div>
 
-                                    <div className='flex flex-row text-bold  mt-2'>
-                                        <span className='text-lg text-sky-500 '>  {address}</span>
+                                    <div className='flex flex-row  mt-2'>
+                                        <span className='text-lg text-bold'>  {address}</span>
                                         <p className='ml-5 text-md '>Khu II, Đ. 3 Tháng 2, Xuân Khánh, Ninh Kiều, Cần Thơ, Việt Nam</p>
                                     </div>
                                     <iframe className='rounded-2xl mt-5' src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.8415184420396!2d105.76804037469974!3d10.029933690077012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31a0895a51d60719%3A0x9d76b0035f6d53d0!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBD4bqnbiBUaMah!5e0!3m2!1svi!2s!4v1714280254257!5m2!1svi!2s" width="370" height="250" allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>

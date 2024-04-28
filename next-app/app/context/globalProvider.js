@@ -32,6 +32,7 @@ export const GlobalProvider = ({ children }) => {
     }, [user]);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadingBlog, setIsLoadingBlog] = useState(false);
     const [isLoadingAsia, setIsLoadingAsia] = useState(false);
     const [isLoadingEuro, setIsLoadingEuro] = useState(false);
     const [isLoadingRandom, setIsLoadingRandom] = useState(false);
@@ -45,6 +46,7 @@ export const GlobalProvider = ({ children }) => {
     const [Searchdestinations, setSearchDestinations] = useState([]);
     const [users, setUsers] = useState([]);
     const [blogs, setBlogs] = useState([]);
+    const [listblogs, setListBlogs] = useState([]);
     const [currentPageDest, setCurrentPageDest] = useState(1);
     const [currentPageUser, setCurrentPageUser] = useState(1);
     const [currentPageBlog, setCurrentPageBlog] = useState(1);
@@ -188,6 +190,17 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    const allListBlogs = async () => {
+        setIsLoadingBlog(true);
+        try {
+            const res = await axios.get(`/api/blogs`);
+            setListBlogs(res.data.listblogs || []);
+            setIsLoadingBlog(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const deleteBlog = async (id) => {
         try {
             const res = await axios.delete(`/api/blogs/${id}`);
@@ -201,6 +214,7 @@ export const GlobalProvider = ({ children }) => {
     }
 
     React.useEffect(() => {
+        allListBlogs();
         allEuro();
         allAsia();
         randomDest();
@@ -231,7 +245,9 @@ export const GlobalProvider = ({ children }) => {
             Searchdestinations,
             users,
             blogs,
+            listblogs,
             allDests,
+            allListBlogs,
             currentPageDest,
             currentPageUser,
             currentPageBlog,
@@ -250,6 +266,7 @@ export const GlobalProvider = ({ children }) => {
             isLoadingRandom,
             isLoadingEuro,
             isLoadingSearch,
+            isLoadingBlog,
             deleteDest,
             deleteUser,
             deleteBlog,
