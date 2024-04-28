@@ -3,10 +3,10 @@
 import { useGlobalUpdate } from '@/app/context/globalProvider';
 import Image from 'next/image'
 import React, { useState } from 'react'
-import Search from '../components/Search/Search';
 import toast from 'react-hot-toast';
 import DestinationsPage from '../components/Destinations/Destinations';
 import anime from 'animejs';
+import SearchDest from '../components/Search/SearchDest';
 
 
 
@@ -97,7 +97,7 @@ const destinations = () => {
 
             {submitted && (
                 <div id='search' className='caret-transparent'>
-                    <Search />
+                    <SearchDest />
                 </div>
             )}
 

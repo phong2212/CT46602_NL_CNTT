@@ -11,7 +11,7 @@ interface Destinations {
     imageURL: string;
 }
 
-function Search() {
+function SearchDest() {
     const { Searchdestinations, isLoadingSearch } = useGlobalState();
     const [loaded, setLoaded] = useState(false);
     const [noResults, setNoResults] = useState(false);
@@ -56,9 +56,9 @@ function Search() {
             ) : isLoadingSearch ? (
                 <div ref={sliderRef} className="keen-slider mt-8">
                     <div className='keen-slider__slide number-slide1 skeleton w-32 h-52'></div>
-                    <div className='keen-slider__slide number-slide2 skeleton w-32 h-52 ml-5'></div>
-                    <div className='keen-slider__slide number-slide3 skeleton w-32 h-52 ml-5'></div>
-                    <div className='keen-slider__slide number-slide4 skeleton w-32 h-52 ml-5'></div>
+                    <div className='keen-slider__slide number-slide2 skeleton w-32 h-52'></div>
+                    <div className='keen-slider__slide number-slide3 skeleton w-32 h-52'></div>
+                    <div className='keen-slider__slide number-slide4 skeleton w-32 h-52'></div>
                 </div>
             ) : (
                 <div ref={sliderRef} className='keen-slider mt-8 flex flex-row relative overflow-hidden'>
@@ -93,4 +93,4 @@ function Search() {
     );
 }
 
-export default Search;
+export default SearchDest;

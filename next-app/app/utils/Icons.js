@@ -12,4 +12,9 @@ export const arrowRight = <i className="fa-solid fa-arrow-right"></i>;
 export const arrowLeft = <i className="fa-solid fa-arrow-left"></i>;
 export const people = <i className="fa-solid fa-universal-access"></i>;
 export const star = <i className="fa-solid fa-star"></i>;
-export const poll = <i className="fa-solid fa-square-poll-vertical"></i>
+export const poll = <i className="fa-solid fa-square-poll-vertical"></i>;
+export const location = <i className="fa-solid fa-location-dot"></i>;
+export const idCard = <i className="fa-solid fa-id-card"></i>;
+export const email = <i className="fa-solid fa-envelope"></i>;
+export const phone = <i className="fa-solid fa-phone"></i>;
+export const address = <i class="fa-solid fa-map-location-dot"></i>;

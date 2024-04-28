@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 interface Props {
     id: string;
@@ -10,7 +11,7 @@ function Carousel({ id, name, imageURL }: Props) {
         <div key={id} className="image h-[13rem] bg-cover transition duration-700" style={{ backgroundImage: `url('${imageURL}')` }}>
             <div className="image__overlay duration-500 ">
                 <h2 className="image__overlay__title">{name}</h2>
-                <a type="button" href="/" className="btn btn-dark">Xem thêm</a>
+                <Link type="button" href={"/destinations/" + id} className="btn btn-dark">Xem thêm</Link>
             </div>
         </div>
     )

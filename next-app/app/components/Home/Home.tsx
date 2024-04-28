@@ -191,7 +191,7 @@ function HomePage() {
                 ) : (
                     < div className="grid grid-cols-3 gap-4 mt-8">
                         {Randomdestinations.map((random: Destinations) => (
-                            <Link href={'/'} key={random.id} className="relative hover:bg-black duration-300 hover:rounded-lg">
+                            <Link href={'/destinations/' + random.id} key={random.id} className="relative hover:bg-black duration-300 hover:rounded-lg">
                                 <img src={random.imageURL} alt={random.name} className="w-full h-52 object-cover rounded-lg transition  hover:opacity-70" />
                                 <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white px-4 py-2 rounded-b-lg">
                                     <p className="text-xl font-semibold">{random.name}</p>

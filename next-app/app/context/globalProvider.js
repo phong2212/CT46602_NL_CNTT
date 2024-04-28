@@ -36,7 +36,9 @@ export const GlobalProvider = ({ children }) => {
     const [isLoadingEuro, setIsLoadingEuro] = useState(false);
     const [isLoadingRandom, setIsLoadingRandom] = useState(false);
     const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+    const [isLoadingOneDest, setIsLoadingOneDest] = useState(false);
     const [destinations, setDestinations] = useState([]);
+    const [destination, setDestination] = useState([]);
     const [Asiadestinations, setAsiaDestinations] = useState([]);
     const [Eurodestinations, setEuroDestinations] = useState([]);
     const [Randomdestinations, setRandomDestinations] = useState([]);
@@ -123,6 +125,17 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    const getOneDest = async (id) => {
+        setIsLoadingOneDest(true);
+        try {
+            const res = await axios.get(`/api/destinations/${id}`);
+            setDestination(res.data.destination || []);
+            setIsLoadingOneDest(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     const deleteDest = async (id) => {
         try {
             const res = await axios.delete(`/api/destinations/${id}`);
@@ -191,13 +204,8 @@ export const GlobalProvider = ({ children }) => {
         allEuro();
         allAsia();
         randomDest();
+        searchDest();
     }, []);
-
-
-    React.useEffect(() => {
-        searchDest
-    }, []);
-
 
     React.useEffect(() => {
         allDests();
@@ -216,6 +224,7 @@ export const GlobalProvider = ({ children }) => {
     return (
         <GlobalContext.Provider value={{
             destinations,
+            destination,
             Asiadestinations,
             Randomdestinations,
             Eurodestinations,
@@ -236,6 +245,7 @@ export const GlobalProvider = ({ children }) => {
             setCurrentPageUser,
             setCurrentPageBlog,
             isLoading,
+            isLoadingOneDest,
             isLoadingAsia,
             isLoadingRandom,
             isLoadingEuro,
@@ -247,6 +257,7 @@ export const GlobalProvider = ({ children }) => {
             openModal,
             closeModal,
             isAdmin,
+            getOneDest,
         }}>
             <GlobalUpdateContext.Provider value={{ allDests, allUsers, allBlogs, searchDest, }}>
                 {children}
