@@ -90,9 +90,6 @@ function BlogsScreen() {
                                 Khám phá các blog
                             </h1>
                         </div>
-                        <p className='mt-5 pr-20 text-justify'>
-                            Khám phá cộng đồng du lịch: Những hành trình, lời khuyên và trải nghiệm đáng chú ý từ các blogger du lịch hàng đầu.
-                        </p>
                     </div>
                     {isSignedIn && (
                         <button onClick={openModal} className='btn btn-info'>
@@ -102,10 +99,10 @@ function BlogsScreen() {
                 </div>
                 {isLoadingBlog ? (
                     <div ref={sliderRef} className="keen-slider mt-8">
-                        <div className='keen-slider__slide number-slide1 skeleton w-32 h-52'></div>
-                        <div className='keen-slider__slide number-slide2 skeleton w-32 h-52 ml-5'></div>
-                        <div className='keen-slider__slide number-slide3 skeleton w-32 h-52 ml-5'></div>
-                        <div className='keen-slider__slide number-slide4 skeleton w-32 h-52 ml-5'></div>
+                        <div className='keen-slider__slide number-slide1 skeleton w-32 h-96'></div>
+                        <div className='keen-slider__slide number-slide2 skeleton w-32 h-96 ml-5'></div>
+                        <div className='keen-slider__slide number-slide3 skeleton w-32 h-96 ml-5'></div>
+                        <div className='keen-slider__slide number-slide4 skeleton w-32 h-96 ml-5'></div>
                     </div>
                 ) : (
                     <div ref={sliderRef} className="keen-slider mt-8">

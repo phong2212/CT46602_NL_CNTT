@@ -20,3 +20,4 @@ export const phone = <i className="fa-solid fa-phone"></i>;
 export const address = <i className="fa-solid fa-map-location-dot"></i>;
 export const newspaper = <i className="fa-solid fa-newspaper"></i>
 export const pencil = <i className="fa-solid fa-pencil"></i>;
+export const bold = <i className="fa-solid fa-bold"></i>

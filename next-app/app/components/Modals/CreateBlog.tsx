@@ -5,6 +5,8 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 
+
+
 function CreateBlog() {
     const { allListBlogs, closeModal } = useGlobalState();
     const [title, setTitle] = useState('');
@@ -55,7 +57,7 @@ function CreateBlog() {
     }
 
     return (
-        <form className='container px-20 caret-transparent' onSubmit={handleSubmit}>
+        <form className='container px-20' onSubmit={handleSubmit}>
             <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
                     <h2 className="text-2xl mb-8 text-center font-semibold leading-7">Tạo Blog mới</h2>
@@ -69,8 +71,8 @@ function CreateBlog() {
                             value={title}
                             title="title"
                             onChange={handleChange("title")}
-                            className="input input-bordered w-full max-w-xs"
-                            placeholder="Nhập tên địa điểm..."
+                            className={`input input-bordered w-full max-w-xs `}
+                            placeholder="Nhập tiêu đề..."
                         />
                     </label>
                     <label className=' form-control w-full max-w-xs mt-2'>
@@ -83,7 +85,7 @@ function CreateBlog() {
                             title="content"
                             onChange={handleChange("content")}
                             className="textarea textarea-bordered flex items-center "
-                            placeholder="Nhập mô tả..."
+                            placeholder="Nhập nội dung..."
                             rows={4}
                         />
                     </label>

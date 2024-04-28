@@ -71,14 +71,14 @@ function Card({ id, author, title, content, imageURL, createdAt }: Props) {
 
     return (
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="relative h-64">
-                <img className="absolute h-full w-full object-contain" src={imageURL} alt="Blog Image" />
+            <div className="relative h-56">
+                <img className="absolute h-full w-full object-fill drop-shadow-md rounded-lg" src={imageURL} alt="Blog Image" />
             </div>
-            <div className="px-6 py-4">
-                <p className="font-bold text-md">{title}</p>
-                <p className="text-gray-700 text-sm mb-2">{author}</p>
-                <p ref={contentRef} className="text-gray-700 text-md mb-2 text-justify">{content}</p>
-                <p className="text-gray-700 text-sm">{timeAgo}</p>
+            <div className="px-6 py-3">
+                <p className="font-bold text-md h-12 flex items-center">{title}</p>
+                <p ref={contentRef} className="text-gray-700 text-sm my-2 text-justify">{content}</p>
+                <p className="text-gray-700 text-xs">{author}</p>
+                <p className="text-gray-700 text-xs">{timeAgo}</p>
             </div>
         </div>
     )

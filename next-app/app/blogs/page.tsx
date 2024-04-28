@@ -6,9 +6,10 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import anime from 'animejs';
 import BlogsScreen from '../components/Blogs/BlogsScreen';
+import SearchBlog from '../components/Search/SearchBlog';
 
 const BlogPage = () => {
-    // const { searchDest } = useGlobalUpdate();
+    const { searchBlog } = useGlobalUpdate();
     const [searchTerm, setSearchTerm] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
@@ -23,11 +24,11 @@ const BlogPage = () => {
             return;
         }
 
-        const searchElement = document.getElementById('search');
+        const searchElement = document.getElementById('searchBlog');
         if (searchElement) {
             searchElement.classList.remove('invisible');
         }
-        // searchDest(searchTerm);
+        searchBlog(searchTerm);
         setSubmitted(true);
     };
 
@@ -78,7 +79,8 @@ const BlogPage = () => {
             </div>
 
             {submitted && (
-                <div id='search' className='caret-transparent'>
+                <div id='searchBlog' className='caret-transparent'>
+                    <SearchBlog />
                 </div>
             )}
 

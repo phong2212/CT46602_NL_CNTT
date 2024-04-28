@@ -80,7 +80,25 @@ export async function GET(req: Request) {
             },
         });
 
-        return NextResponse.json({ blogs, listblogs, total, page, limit, status: 200 });
+        const recent = await prisma.blogs.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            },
+            take: 4,
+        });
+
+        const searching = await prisma.blogs.findMany({
+            orderBy: {
+                createdAt: 'desc',
+            },
+            where: {
+                OR: [
+                    { title: { contains: search, mode: 'insensitive' } },
+                ],
+            },
+        });
+
+        return NextResponse.json({ blogs, listblogs, searching, recent, total, page, limit, status: 200 });
     } catch (error) {
         console.log("Lỗi lấy blog: ", error);
         return NextResponse.json({ error: "Lỗi lấy blog", status: 500 });

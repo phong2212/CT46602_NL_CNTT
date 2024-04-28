@@ -11,6 +11,7 @@ import { useInView } from 'react-intersection-observer';
 import anime from "animejs/lib/anime.es.js";
 import { arrowLeft, arrowRight, plane, people, star } from '@/app/utils/Icons';
 import Link from 'next/link';
+import Card from '../Card/Card';
 
 interface Destinations {
     id: string;
@@ -18,9 +19,26 @@ interface Destinations {
     imageURL: string;
 }
 
+interface Blogs {
+    id: string;
+    authorId: string;
+    title: string;
+    content: string;
+    createdAt: Date;
+    updatedAt: Date;
+    imageURL: string;
+}
+
+interface Users {
+    id: string;
+    clerkId: string;
+    firstName: string;
+    lastName: string;
+}
+
 
 function HomePage() {
-    const { Asiadestinations, Randomdestinations, isLoadingAsia, isLoadingRandom } = useGlobalState();
+    const { users, Asiadestinations, Randomdestinations, recentblogs, isLoadingRecent, isLoadingAsia, isLoadingRandom } = useGlobalState();
     const [loaded, setLoaded] = useState(false);
     const ksOptions: KeenSliderOptions = {
         initial: 0,
@@ -40,8 +58,8 @@ function HomePage() {
         instanceRef.current?.update(ksOptions);
     }, [Asiadestinations]);
 
-    const textRefs = useRef(Array.from({ length: 4 }).map(() => useRef(null)));
-    const [triggered, setTriggered] = useState(Array.from({ length: 4 }).fill(false));
+    const textRefs = useRef(Array.from({ length: 5 }).map(() => useRef(null)));
+    const [triggered, setTriggered] = useState(Array.from({ length: 5 }).fill(false));
 
     const animateText = (index: any) => {
         anime({
@@ -74,6 +92,11 @@ function HomePage() {
         threshold: 0.5
     });
 
+    const [ref5, inView5] = useInView({
+        triggerOnce: true,
+        threshold: 0.5
+    });
+
     React.useEffect(() => {
         if (inView1 && !triggered[0]) {
             animateText(0);
@@ -101,6 +124,13 @@ function HomePage() {
             setTriggered((prev) => [...prev.slice(0, 3), true]);
         }
     }, [inView4, triggered]);
+
+    React.useEffect(() => {
+        if (inView4 && !triggered[4]) {
+            animateText(4);
+            setTriggered((prev) => [...prev.slice(0, 4), true]);
+        }
+    }, [inView5, triggered]);
 
     return (
         <div className='h-full caret-transparent'>
@@ -202,8 +232,49 @@ function HomePage() {
                 )}
             </div>
 
-            <div ref={ref3} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
-                <div ref={textRefs.current[2]} className='flex flex-row items-start opacity-0'>
+            <div ref={ref3} className='bg-base-200 px-16 py-12 m-16 rounded-badge drop-shadow-lg'>
+                <div className='flex flex-row justify-between items-center'>
+                    <div ref={textRefs.current[2]} className=' w-2/3  opacity-0'>
+                        <div className='flex flex-row items-center'>
+                            <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{plane}</span>
+                            <h1 className='text-3xl font-bold text-start text-sky-400'>
+                                Khám phá các bài viết gần đây
+                            </h1>
+                        </div>
+                        <p className='mt-5 pr-20 text-justify'>
+                            Khám phá cộng đồng du lịch: Những hành trình, lời khuyên và trải nghiệm đáng chú ý.
+                        </p>
+                    </div>
+                </div>
+                {isLoadingRecent ? (
+                    <div className="grid grid-cols-4 gap-4 mt-8">
+                        <div className='skeleton w-68 h-96 '></div>
+                        <div className='skeleton w-68 h-96'></div>
+                        <div className='skeleton w-68 h-96'></div>
+                        <div className='skeleton w-68 h-96'></div>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-4 gap-4 mt-8">
+                        {recentblogs.map((recent: Blogs) => {
+                            const authorUser = users.find((user: Users) => user.clerkId === recent.authorId);
+                            return (
+                                <Card
+                                    key={recent.id}
+                                    id={recent.id}
+                                    author={authorUser ? `${authorUser.firstName} ${authorUser.lastName}` : 'Unknown'}
+                                    title={recent.title}
+                                    content={recent.content}
+                                    createdAt={recent.createdAt}
+                                    imageURL={recent.imageURL}
+                                />
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+
+            <div ref={ref4} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
+                <div ref={textRefs.current[3]} className='flex flex-row items-start opacity-0'>
                     <div className=' w-3/5'>
                         <div className='flex flex-row items-center'>
                             <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{people}</span>
@@ -252,8 +323,8 @@ function HomePage() {
                 </div>
             </div>
 
-            <div ref={ref4} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
-                <div ref={textRefs.current[3]} className='opacity-0'>
+            <div ref={ref5} className='bg-base-200 p-16 m-16 rounded-badge drop-shadow-lg'>
+                <div ref={textRefs.current[4]} className='opacity-0'>
                     <div className='flex flex-row items-start'>
                         <div className=' w-3/5'>
                             <div className='flex flex-row items-center'>

@@ -13,15 +13,16 @@ export const GlobalUpdateContext = createContext()
 export const GlobalProvider = ({ children }) => {
     const { user } = useClerk();
     const [isAdmin, setIsAdmin] = useState(false);
+    const [isLoadingAdmin, setIsLoadingAdmin] = useState(false);
 
     React.useEffect(() => {
         const fetchAdminStatus = async () => {
-            setIsLoading(false);
+            setIsLoadingAdmin(true);
             if (user) {
                 try {
                     const res = await axios.get(`/api/webhooks/clerk`);
                     setIsAdmin(res.data.admin.some(admin => admin.clerkId === user.id));
-                    setIsLoading(true);
+                    setIsLoadingAdmin(false);
                 } catch (error) {
                     console.error(error);
                 }
@@ -33,10 +34,12 @@ export const GlobalProvider = ({ children }) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [isLoadingBlog, setIsLoadingBlog] = useState(false);
+    const [isLoadingRecent, setIsLoadingRecent] = useState(false);
     const [isLoadingAsia, setIsLoadingAsia] = useState(false);
     const [isLoadingEuro, setIsLoadingEuro] = useState(false);
     const [isLoadingRandom, setIsLoadingRandom] = useState(false);
     const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+    const [isLoadingSearchBlog, setIsLoadingSearchBlog] = useState(false);
     const [isLoadingOneDest, setIsLoadingOneDest] = useState(false);
     const [destinations, setDestinations] = useState([]);
     const [destination, setDestination] = useState([]);
@@ -44,9 +47,11 @@ export const GlobalProvider = ({ children }) => {
     const [Eurodestinations, setEuroDestinations] = useState([]);
     const [Randomdestinations, setRandomDestinations] = useState([]);
     const [Searchdestinations, setSearchDestinations] = useState([]);
+    const [SearchBlogs, setSearchBlogs] = useState([]);
     const [users, setUsers] = useState([]);
     const [blogs, setBlogs] = useState([]);
     const [listblogs, setListBlogs] = useState([]);
+    const [recentblogs, setRecentBlogs] = useState([]);
     const [currentPageDest, setCurrentPageDest] = useState(1);
     const [currentPageUser, setCurrentPageUser] = useState(1);
     const [currentPageBlog, setCurrentPageBlog] = useState(1);
@@ -201,6 +206,28 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    const recentBlogs = async () => {
+        setIsLoadingRecent(true);
+        try {
+            const res = await axios.get(`/api/blogs`);
+            setRecentBlogs(res.data.recent || []);
+            setIsLoadingRecent(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const searchBlog = async (search) => {
+        setIsLoadingSearchBlog(true);
+        try {
+            const res = await axios.get(`/api/blogs?search=${search}`);
+            setSearchBlogs(res.data.searching || []);
+            setIsLoadingSearchBlog(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const deleteBlog = async (id) => {
         try {
             const res = await axios.delete(`/api/blogs/${id}`);
@@ -215,10 +242,12 @@ export const GlobalProvider = ({ children }) => {
 
     React.useEffect(() => {
         allListBlogs();
+        recentBlogs();
         allEuro();
         allAsia();
         randomDest();
         searchDest();
+        searchBlog();
     }, []);
 
     React.useEffect(() => {
@@ -243,9 +272,11 @@ export const GlobalProvider = ({ children }) => {
             Randomdestinations,
             Eurodestinations,
             Searchdestinations,
+            SearchBlogs,
             users,
             blogs,
             listblogs,
+            recentblogs,
             allDests,
             allListBlogs,
             currentPageDest,
@@ -261,12 +292,15 @@ export const GlobalProvider = ({ children }) => {
             setCurrentPageUser,
             setCurrentPageBlog,
             isLoading,
+            isLoadingAdmin,
             isLoadingOneDest,
             isLoadingAsia,
             isLoadingRandom,
             isLoadingEuro,
             isLoadingSearch,
             isLoadingBlog,
+            isLoadingRecent,
+            isLoadingSearchBlog,
             deleteDest,
             deleteUser,
             deleteBlog,
@@ -276,7 +310,7 @@ export const GlobalProvider = ({ children }) => {
             isAdmin,
             getOneDest,
         }}>
-            <GlobalUpdateContext.Provider value={{ allDests, allUsers, allBlogs, searchDest, }}>
+            <GlobalUpdateContext.Provider value={{ allDests, allUsers, allBlogs, searchDest, searchBlog, }}>
                 {children}
             </GlobalUpdateContext.Provider>
         </GlobalContext.Provider>
