@@ -41,7 +41,11 @@ export const GlobalProvider = ({ children }) => {
     const [isLoadingSearch, setIsLoadingSearch] = useState(false);
     const [isLoadingSearchBlog, setIsLoadingSearchBlog] = useState(false);
     const [isLoadingOneDest, setIsLoadingOneDest] = useState(false);
+    const [isLoadingOneBlog, setIsLoadingOneBlog] = useState(false);
+    const [isLoadingFavorite, setIsLoadingFavorite] = useState(false);
+    const [isLoadingAll, setIsLoadingAll] = useState(false);
     const [destinations, setDestinations] = useState([]);
+    const [allDest, setAllDest] = useState([]);
     const [destination, setDestination] = useState([]);
     const [Asiadestinations, setAsiaDestinations] = useState([]);
     const [Eurodestinations, setEuroDestinations] = useState([]);
@@ -50,8 +54,10 @@ export const GlobalProvider = ({ children }) => {
     const [SearchBlogs, setSearchBlogs] = useState([]);
     const [users, setUsers] = useState([]);
     const [blogs, setBlogs] = useState([]);
+    const [blog, setBlog] = useState([]);
     const [listblogs, setListBlogs] = useState([]);
     const [recentblogs, setRecentBlogs] = useState([]);
+    const [favorite, setFavorite] = useState([]);
     const [currentPageDest, setCurrentPageDest] = useState(1);
     const [currentPageUser, setCurrentPageUser] = useState(1);
     const [currentPageBlog, setCurrentPageBlog] = useState(1);
@@ -74,6 +80,16 @@ export const GlobalProvider = ({ children }) => {
         setModal(false);
     };
 
+    const all = async () => {
+        setIsLoadingAll(true);
+        try {
+            const res = await axios.get(`/api/destinations`);
+            setAllDest(res.data.all || []);
+            setIsLoadingAll(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const allDests = async (page = currentPageDest, search = searchTermDest) => {
         setIsLoading(true);
@@ -228,6 +244,17 @@ export const GlobalProvider = ({ children }) => {
         }
     };
 
+    const getOneBlog = async (id) => {
+        setIsLoadingOneBlog(true);
+        try {
+            const res = await axios.get(`/api/blogs/${id}`);
+            setBlog(res.data.blog || []);
+            setIsLoadingOneBlog(false);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     const deleteBlog = async (id) => {
         try {
             const res = await axios.delete(`/api/blogs/${id}`);
@@ -240,6 +267,48 @@ export const GlobalProvider = ({ children }) => {
         }
     }
 
+    const allFavorite = async () => {
+        setIsLoadingFavorite(true);
+        try {
+            const res = await axios.get(`/api/favorite`);
+            setFavorite(res.data.favorite || []);
+            setIsLoadingFavorite(false);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const addFavorite = async (favorite) => {
+        try {
+            const res = await axios.post(`/api/favorite`, favorite);
+
+            if (res.data.error) {
+                toast.error(res.data.error);
+            }
+
+            if (!res.data.error) {
+                toast.success("Thêm yêu thích thành công!");
+                allFavorite();
+                closeModal();
+            }
+        } catch (error) {
+            toast.error("Thêm yêu thích thất bại!");
+            console.error(error);
+        }
+    }
+
+    const deleteFavorite = async (id) => {
+        try {
+            const res = await axios.delete(`/api/favorite/${id}`);
+            toast.success("Xóa yêu thích thành công");
+
+            allFavorite();
+        } catch (err) {
+            console.log(err);
+            toast.error("Xóa yêu thích thất bại");
+        }
+    }
+
     React.useEffect(() => {
         allListBlogs();
         recentBlogs();
@@ -248,6 +317,8 @@ export const GlobalProvider = ({ children }) => {
         randomDest();
         searchDest();
         searchBlog();
+        allFavorite();
+        all();
     }, []);
 
     React.useEffect(() => {
@@ -268,6 +339,7 @@ export const GlobalProvider = ({ children }) => {
         <GlobalContext.Provider value={{
             destinations,
             destination,
+            allDest,
             Asiadestinations,
             Randomdestinations,
             Eurodestinations,
@@ -275,8 +347,10 @@ export const GlobalProvider = ({ children }) => {
             SearchBlogs,
             users,
             blogs,
+            blog,
             listblogs,
             recentblogs,
+            favorite,
             allDests,
             allListBlogs,
             currentPageDest,
@@ -301,16 +375,22 @@ export const GlobalProvider = ({ children }) => {
             isLoadingBlog,
             isLoadingRecent,
             isLoadingSearchBlog,
+            isLoadingOneBlog,
+            isLoadingFavorite,
+            isLoadingAll,
+            addFavorite,
             deleteDest,
             deleteUser,
             deleteBlog,
+            deleteFavorite,
             modal,
             openModal,
             closeModal,
             isAdmin,
             getOneDest,
+            getOneBlog,
         }}>
-            <GlobalUpdateContext.Provider value={{ allDests, allUsers, allBlogs, searchDest, searchBlog, }}>
+            <GlobalUpdateContext.Provider value={{ allDests, allUsers, allBlogs, searchDest, searchBlog }}>
                 {children}
             </GlobalUpdateContext.Provider>
         </GlobalContext.Provider>

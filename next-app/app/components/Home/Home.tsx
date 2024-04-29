@@ -9,7 +9,7 @@ import { KeenSliderOptions, useKeenSlider } from "keen-slider/react"
 import 'keen-slider/keen-slider.min.css'
 import { useInView } from 'react-intersection-observer';
 import anime from "animejs/lib/anime.es.js";
-import { arrowLeft, arrowRight, plane, people, star } from '@/app/utils/Icons';
+import { arrowLeft, arrowRight, plane, people, star, newspaper } from '@/app/utils/Icons';
 import Link from 'next/link';
 import Card from '../Card/Card';
 
@@ -236,7 +236,7 @@ function HomePage() {
                 <div className='flex flex-row justify-between items-center'>
                     <div ref={textRefs.current[2]} className=' w-2/3  opacity-0'>
                         <div className='flex flex-row items-center'>
-                            <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{plane}</span>
+                            <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{newspaper}</span>
                             <h1 className='text-3xl font-bold text-start text-sky-400'>
                                 Khám phá các bài viết gần đây
                             </h1>

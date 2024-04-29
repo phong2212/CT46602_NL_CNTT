@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { useState } from 'react'
 
 interface Props {
@@ -69,17 +70,21 @@ function Card({ id, author, title, content, imageURL, createdAt }: Props) {
         truncateContent();
     }, []);
 
+    const contentWithoutTags = content.replace(/<[^>]+>/g, '');
+
     return (
         <div className="bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="relative h-56">
-                <img className="absolute h-full w-full object-fill drop-shadow-md rounded-lg" src={imageURL} alt="Blog Image" />
-            </div>
-            <div className="px-6 py-3">
-                <p className="font-bold text-md h-12 flex items-center">{title}</p>
-                <p ref={contentRef} className="text-gray-700 text-sm my-2 text-justify">{content}</p>
-                <p className="text-gray-700 text-xs">{author}</p>
-                <p className="text-gray-700 text-xs">{timeAgo}</p>
-            </div>
+            <Link href={"/blogs/" + id} >
+                <div className="relative h-56">
+                    <img className="absolute h-full w-full object-fill drop-shadow-md rounded-lg" src={imageURL} alt="Blog Image" />
+                </div>
+                <div className="px-6 py-3">
+                    <p className="font-bold text-md h-12 flex items-center">{title}</p>
+                    <p ref={contentRef} className="text-gray-700 text-sm my-2 text-justify  h-[3.8rem]">{contentWithoutTags}</p>
+                    <p className="text-gray-700 text-xs">{author}</p>
+                    <p className="text-gray-700 text-xs">{timeAgo}</p>
+                </div>
+            </Link>
         </div>
     )
 }

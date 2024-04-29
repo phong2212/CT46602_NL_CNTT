@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import anime from 'animejs';
 import SearchDest from '../../components/Search/SearchDest';
-import { location, plane, idCard, email, phone, address } from '@/app/utils/Icons';
+import { location, plane, idCard, email, phone, address, heartOutline, heart } from '@/app/utils/Icons';
 import Link from 'next/link';
 
 interface Destinations {
@@ -17,7 +17,7 @@ interface Destinations {
 
 
 const DetailDestPage = ({ params }: { params: { id: string } }) => {
-    const { Randomdestinations, destination, getOneDest, isLoadingOneDest, isLoadingRandom } = useGlobalState();
+    const { Randomdestinations, destination, getOneDest, isLoadingOneDest, isLoadingRandom, addFavorite, deleteFavorite, favorite } = useGlobalState();
     React.useEffect(() => {
         getOneDest(params.id);
     }, []);
@@ -25,6 +25,16 @@ const DetailDestPage = ({ params }: { params: { id: string } }) => {
     const { searchDest } = useGlobalUpdate();
     const [searchTerm, setSearchTerm] = useState('');
     const [submitted, setSubmitted] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    React.useEffect(() => {
+        const isFavoriteDestination = favorite.some((fav: any) => fav.destinationId === destination.id);
+        if (isFavoriteDestination) {
+            setIsFavorite(true);
+        } else {
+            setIsFavorite(false);
+        }
+    }, [destination.id, favorite]);
 
     const handleSearchChange = (e: any) => {
         setSearchTerm(e.target.value);
@@ -132,11 +142,28 @@ const DetailDestPage = ({ params }: { params: { id: string } }) => {
                                 </div>
                             ) : (
                                 <div>
-                                    <div className='flex flex-row items-center'>
-                                        <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{location}</span>
-                                        <h1 className='text-3xl font-bold text-start text-sky-400'>
-                                            {destination.name}
-                                        </h1>
+                                    <div className='flex flex-row items-center justify-between'>
+                                        <div className='flex flex-row items-center'>
+                                            <span className='btn btn-sm btn-info rounded-full text-white no-animation mr-5 hover:bg-info cursor-default'>{location}</span>
+                                            <h1 className='text-3xl font-bold text-start text-sky-400'>
+                                                {destination.name}
+                                            </h1>
+                                        </div>
+                                        <button className='btn btn-secondary text-lg text-white' onClick={() => {
+                                            if (isFavorite) {
+                                                deleteFavorite(destination.id);
+                                                setIsFavorite(false);
+                                            } else {
+                                                const favorite = {
+                                                    destinationId: destination.id,
+                                                };
+
+                                                addFavorite(favorite);
+                                                setIsFavorite(true);
+                                            }
+                                        }}>
+                                            {isFavorite ? heart : heartOutline}
+                                        </button>
                                     </div>
                                     <div className='flex justify-center items-center mt-6'>
                                         <div className='relative rounded-2xl '>

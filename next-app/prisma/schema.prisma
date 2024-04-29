@@ -32,20 +32,26 @@ model Users {
   id        String   @id @default(cuid()) @map("_id")
   clerkId   String   @unique
   email     String   @unique
-  photo     String   @unique
+  photo     String
   firstName String?
   lastName  String?
-  createdAt Float    @unique
+  createdAt Float
   role      UserRole @default(USER)
 }
 
 model Blogs {
   id       String @id @default(cuid()) @map("_id")
-  authorId String
+  authorId String @unique
   title    String
   content  String
   imageURL String
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+}
+
+model Favorite {
+  id            String @id @default(cuid()) @map("_id")
+  userId        String @unique
+  destinationId String @unique
 }

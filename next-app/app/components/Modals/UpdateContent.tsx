@@ -63,7 +63,7 @@ function UpdateContent({ destinationId }: Props) {
     };
 
     return (
-        <form className='container px-20 caret-transparent' onSubmit={handleSubmit}>
+        <form className='container px-20 caret-white' onSubmit={handleSubmit}>
             <div className="space-y-12">
                 <div className="border-b border-gray-900/10 pb-12">
                     <h2 className="text-2xl mb-8 text-center font-semibold leading-7 text-gray-100">Chỉnh sửa địa điểm mới</h2>
@@ -73,7 +73,7 @@ function UpdateContent({ destinationId }: Props) {
                         </div>
                         <input
                             type="text"
-                            id="tittle"
+                            id="name"
                             value={destination.name}
                             name="name"
                             onChange={handleChange}
@@ -86,7 +86,7 @@ function UpdateContent({ destinationId }: Props) {
                             <span className="label-text text-gray-300 ">Mô tả</span>
                         </div>
                         <textarea
-                            id="tittle"
+                            id="description"
                             value={destination.description}
                             name="description"
                             onChange={handleChange}

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import BlogItem from '../BlogItem/BlogItem';
 import { useGlobalState, useGlobalUpdate } from '../../context/globalProvider';
 
