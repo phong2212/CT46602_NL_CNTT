@@ -73,7 +73,7 @@ function Card({ id, author, title, content, imageURL, createdAt }: Props) {
     const contentWithoutTags = content.replace(/<[^>]+>/g, '');
 
     return (
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="bg-base-100 shadow-md rounded-lg overflow-hidden">
             <Link href={"/blogs/" + id} >
                 <div className="relative h-56">
                     <img className="absolute h-full w-full object-fill drop-shadow-md rounded-lg" src={imageURL} alt="Blog Image" />
