@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { trash } from '@/app/utils/Icons';
 import { useGlobalState } from '@/app/context/globalProvider';
 
-
 interface Props {
     id: string;
     author: string;
@@ -17,8 +16,7 @@ function BlogItem({ id, author, title, content, createdAt, updatedAt, imageURL }
     const { deleteBlog } = useGlobalState();
     const [isZoomed, setIsZoomed] = useState(false);
     const [isDelete, setIsDelete] = useState(false);
-    const [showFullContent, setShowFullContent] = useState(false);
-
+    const [showModal, setShowModal] = useState(false);
 
     const ImageClick = () => {
         setIsZoomed(true);
@@ -36,13 +34,13 @@ function BlogItem({ id, author, title, content, createdAt, updatedAt, imageURL }
         setIsDelete(false);
     };
 
-    const toggleContent = () => {
-        setShowFullContent(!showFullContent);
+    const toggleModal = () => {
+        setShowModal(!showModal);
     };
 
     const formattedCreatedAt = new Date(createdAt).toLocaleDateString();
     const formattedUpdatedAt = new Date(updatedAt).toLocaleDateString();
-
+    const contentWithoutTags = content.replace(/<[^>]+>/g, '');
 
     return (
         <>
@@ -50,10 +48,10 @@ function BlogItem({ id, author, title, content, createdAt, updatedAt, imageURL }
                 <td>{author}</td>
                 <td>{title}</td>
                 <td>
-                    {showFullContent || content.length <= 80 ? content : `${content.substring(0, 80)}...`}
-                    {content.length > 80 && (
-                        <button className='btn-link pl-1' onClick={toggleContent}>
-                            {showFullContent ? '[Thu gọn]' : '[Mở rộng]'}
+                    {contentWithoutTags.length <= 80 ? contentWithoutTags : `${contentWithoutTags.substring(0, 80)}...`}
+                    {contentWithoutTags.length > 80 && (
+                        <button className='btn-link pl-1' onClick={toggleModal}>
+                            Mở rộng
                         </button>
                     )}
                 </td>
@@ -92,6 +90,19 @@ function BlogItem({ id, author, title, content, createdAt, updatedAt, imageURL }
                                 deleteBlog(id);
                             }}>Đồng ý</button>
                             <button className="btn btn-md btn-error" onClick={CloseDelete}>Hủy</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showModal && (
+                <div className="modal modal-open">
+                    <div className="modal-box modal-scrollable">
+                        <div className="modal-content">
+                            <h3 className='text-2xl font-bold'>Nội dung đầy đủ:</h3>
+                            <p>{contentWithoutTags}</p>
+                        </div>
+                        <div className="modal-action">
+                            <button className="btn btn-error" onClick={toggleModal}>Đóng</button>
                         </div>
                     </div>
                 </div>
