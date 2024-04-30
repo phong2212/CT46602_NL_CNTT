@@ -92,11 +92,6 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
     try {
-        const { userId } = auth();
-        if (!userId) {
-            return NextResponse.json({ error: "Không có quyền truy cập", status: 401 })
-        }
-
         const url = new URL(req.url);
         const search = url.searchParams.get('search') || '';
         const page = parseInt(url.searchParams.get('page') || '1', 10);
